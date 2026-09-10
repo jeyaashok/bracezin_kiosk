@@ -1,0 +1,27 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" [ngClass]="type + ' notification-clickable'" (click)="dismiss()" style="cursor: pointer;">
+	<div fxFlex="12" class="snackBarImage border-opacity-20" *ngIf="image">
+		<img class="wd-40 rounded-circle pointer" [attr.src]="image" onerror="this.src='img/no-user.jpg'">
+	</div>
+	<div fxFlex="12" class="snackBarIcon border-opacity-20" *ngIf="!image && !faIcon">
+		<mat-icon [svgIcon]="icon"></mat-icon>
+	</div>
+	<div fxFlex="12" class="snackBarIcon border-opacity-20" *ngIf="faIcon && !image">
+		<i class="{{ faIcon }}"></i>
+	</div>
+	<div fxFlex class="pd-l-10 pd-r-10">
+		<h6 *ngIf="title" class="mg-0 text-sm font-semibold">
+			{{ title | titlecase }}
+		</h6>
+		<hr *ngIf="title" class="hrbar">
+		<p *ngIf="message" class="mg-0 text-sm font-light">
+	  		<!-- {{ message | titlecase }} -->
+	  		{{ message }}
+	  	</p>
+	</div>
+	<!-- Close Button -->
+	<div fxFlex="10" fxFlexAlign="end" class="text-end">
+		<button mat-icon-button (click)="dismiss()" matTooltip="Close notification" aria-label="Close notification" class="close-button" style="color: inherit;">
+			<mat-icon style="font-size: 18px;">close</mat-icon>
+		</button>
+	</div>
+</div>

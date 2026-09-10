@@ -1,0 +1,25 @@
+<div class="dialog-content-wrapper">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="btn-close p-4" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
+				(click)="onNoClick()"></button>
+		</div>
+		<div class="modal-body">
+			<div class="mt-2 text-center">
+				<i class="{{getIcon(data.type)}} text-{{getColor(data.type)}}" style="font-size: 100px;"></i>
+				<ng-template #customIcon>
+					<mat-icon class="icon-size-12" [svgIcon]="icon"></mat-icon>
+				</ng-template>
+				<div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+					<h4>{{ data.title | titlecase }}</h4>
+					<p class="text-muted mx-4 mb-0">{{ data.message }}</p>
+				</div>
+			</div>
+			<div class="d-flex gap-2 justify-content-center mt-4 mb-4">
+				<button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal" (click)="onNoClick()">Close</button>
+				<button type="button" class="btn w-sm btn-{{ getColor(data.type) }} " id="delete-product" (click)="onOkClick()"
+					cdkFocusInitial>{{ getButtonText(data.type) }}</button>
+			</div>
+		</div>
+	</div>
+</div>

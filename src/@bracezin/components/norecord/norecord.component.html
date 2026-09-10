@@ -1,0 +1,39 @@
+<div class="no-record-root">
+  <div class="no-record-card" *ngIf="!loader; else loadingTemplate">
+    <div class="no-record-icon">
+      <ng-container *ngIf="!icon || icon === 'default'; else customIcon">
+        <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+          colors="primary:#405189,secondary:#0ab39c" style="width:96px;height:96px"></lord-icon>
+      </ng-container>
+      <ng-template #customIcon>
+        <mat-icon class="icon-size-12" [svgIcon]="icon"></mat-icon>
+      </ng-template>
+    </div>
+
+    <div class="no-record-content">
+      <h5>{{ title | titlecase }}</h5>
+      <p>{{ subTitle | titlecase }}</p>
+    </div>
+
+    <div class="no-record-actions" *ngIf="(addButton || backButton) && (showAddButton || showBackButton)">
+      <button mat-flat-button color="primary" *ngIf="addButton && showAddButton" [ngClass]="addButton.color"
+        type="button" (click)="addNew.emit($event)">
+        <mat-icon>{{ addButton.icon || 'add_circle' }}</mat-icon>
+        <span>{{ addButton.title || 'Add New' | titlecase }}</span>
+      </button>
+      <button mat-stroked-button color="accent" *ngIf="backButton && showBackButton" type="button"
+        (click)="back.emit($event)">
+        <mat-icon>{{ backButton.icon || 'arrow_back' }}</mat-icon>
+        <span>{{ backButton.title || 'Back' | titlecase }}</span>
+      </button>
+    </div>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <div class="no-record-loading">
+      <mat-icon class="no-record-loader" svgIcon="loader_2"></mat-icon>
+      <div class="loading-title">Loading</div>
+      <div class="loading-subtitle">{{ 'Please Wait Until Loading Done...' | titlecase }}</div>
+    </div>
+  </ng-template>
+</div>

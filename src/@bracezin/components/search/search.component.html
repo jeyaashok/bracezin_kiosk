@@ -1,0 +1,11 @@
+<div class="w-full" *ngIf="search && search === 'true'">
+	<div class="relative">
+		<div class="flex items-center">
+			<input #filter [formControl]="searchControl" id="search" [(ngModel)]="searchInput"
+				placeholder="{{ 'Search' | titlecase }}"
+				class="w-full bg-white text-gray-600 rounded-md py-2.5 pl-4 pr-10 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+				(keypress)="searchKeyPress($event)" matTooltip="search">
+			<mat-icon class="absolute right-3 text-gray-400">search</mat-icon>
+		</div>
+	</div>
+</div>

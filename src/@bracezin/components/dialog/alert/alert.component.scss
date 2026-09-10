@@ -1,0 +1,155 @@
+.mdc-snackbar__surface {
+	padding-right: 0px !important;
+}
+
+
+.Orderconfirmed.mat-mdc-snack-bar-container {
+	background-color: rgb(220, 252, 231) !important;
+	color: #2E7D32 !important;
+}
+
+.orderconfirmed {
+	background-color: rgb(220, 252, 231) !important;
+	color: #2E7D32 !important;
+}
+
+.Orderdelivered.mat-mdc-snack-bar-container {
+	background-color: rgb(245, 220, 252) !important;
+	color: #7d2e79 !important;
+}
+
+.orderdelivered {
+	background-color: rgb(245, 220, 252) !important;
+	color: #7d2e79 !important;
+}
+
+.Orderclosed.mat-mdc-snack-bar-container {
+	background-color: #fff5f5 !important;
+	color: #C62828 !important;
+}
+
+.orderclosed {
+	background-color: #fff5f5 !important;
+	color: #C62828 !important;
+}
+
+.Orderonprocess.mat-mdc-snack-bar-container {
+	background-color: rgb(254, 243, 199) !important;
+	color: #FF8F00 !important;
+}
+
+.orderonprocess {
+	background-color: rgb(254, 243, 199) !important;
+	color: #FF8F00 !important;
+}
+
+.Ordercreated.mat-mdc-snack-bar-container {
+	background-color: #ebf8ff !important;
+	color: #1565C0 !important;
+}
+
+.ordercreated {
+	background-color: #ebf8ff !important;
+	color: #1565C0 !important;
+}
+
+.orderondelivery.mat-mdc-snack-bar-container {
+	background-color: rgb(254, 243, 199) !important;
+	color: #FF8F00 !important;
+}
+
+.orderondelivery {
+	background-color: rgb(254, 243, 199) !important;
+	color: #FF8F00 !important;
+}
+
+.snackBarIcon {
+	border-right: 0.5px solid rgb(254 254 254 / 25%);
+	margin-right: 10px;
+
+	.mat-icon {
+		font-size: 36px;
+		width: 42px;
+		height: 32px;
+		bottom: -4px;
+		position: relative;
+		justify-content: center;
+		text-align: center;
+	}
+}
+
+.snackBarImage {
+	border-right: 0.5px solid rgb(254 254 254 / 25%);
+	margin-right: 10px;
+
+	.mat-icon {
+		width: 42px;
+		height: 32px;
+		bottom: -4px;
+		position: relative;
+		justify-content: center;
+		text-align: center;
+	}
+}
+
+.hrbar {
+	margin: 0px;
+	border: 0.5px solid rgb(254 254 254 / 25%);
+	opacity: 0.2;
+}
+
+// .warn,
+// .warning, .ticketabandon {
+// 	color: rgba(0,0,0,0.8) !important;
+// }
+
+.success,
+.success,
+.info,
+.grey,
+.danger,
+.newmessage,
+.ticketassigned,
+.ticketreassigned,
+.ticketremoved,
+.aticketassigned,
+.aticketreassigned,
+.aticketremoved,
+.ticketclosed,
+.newticket,
+.warn,
+.warning,
+.removefeed,
+.anewfeed,
+.newfeed,
+.error,
+.ticketabandon {
+	color: rgba(255, 255, 255, 0.9) !important;
+}
+
+// Clickable notification styles
+.notification-clickable {
+	transition: all 0.2s ease-in-out;
+	
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+		opacity: 0.95;
+	}
+	
+	&:active {
+		transform: translateY(0);
+	}
+}
+
+// Close button styles
+.close-button {
+	opacity: 0.7;
+	transition: opacity 0.2s ease-in-out;
+	
+	&:hover {
+		opacity: 1;
+		background-color: rgba(255, 255, 255, 0.1);
+		border-radius: 50%;
+	}
+}

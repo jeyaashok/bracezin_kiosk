@@ -1,0 +1,140 @@
+:host {
+	display: block;
+}
+
+.no-record-root {
+	min-height: 320px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+}
+
+.no-record-card {
+	width: min(560px, 100%);
+	background: #f8fafc;
+	border: 1px solid rgba(148, 163, 184, 0.25);
+	border-radius: 1.25rem;
+	padding: 2rem;
+	box-shadow: 0 18px 40px rgba(148, 163, 184, 0.12);
+	text-align: center;
+}
+
+.no-record-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 1.5rem;
+}
+
+.no-record-icon mat-icon,
+.no-record-icon lord-icon {
+	width: 96px;
+	height: 96px;
+	font-size: 2.25rem;
+}
+
+.no-record-content h5 {
+	margin: 0;
+	font-size: clamp(1rem, 2vw, 1rem);
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	color: #1f2937;
+}
+
+.no-record-content p {
+	margin: 0.75rem auto 0;
+	max-width: 440px;
+	color: #475569;
+	font-size: clamp(0.7rem, 1.25vw, 0.75rem);
+	line-height: 1.25;
+}
+
+.no-record-actions {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	justify-content: center;
+	margin-top: 1.5rem;
+}
+
+.no-record-actions button {
+	min-width: 150px;
+}
+
+.no-record-actions mat-icon {
+	margin-right: 0.5rem;
+}
+
+.no-record-loading {
+	width: min(420px, 100%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+	border-radius: 1.25rem;
+	background: rgba(148, 163, 184, 0.12);
+}
+
+.no-record-loader {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+	color: #334155;
+}
+
+.loading-title {
+	font-size: clamp(1rem, 1.25vw, 1rem);
+	font-weight: 700;
+	color: #334155;
+}
+
+.loading-subtitle {
+	margin-top: 0.5rem;
+	color: #64748b;
+	font-size: clamp(0.7rem, 1.1vw, 0.75rem);
+}
+
+@media (max-width: 640px) {
+	.no-record-card {
+		padding: 1.5rem;
+	}
+
+	.no-record-icon mat-icon,
+	.no-record-icon lord-icon {
+		width: 82px;
+		height: 82px;
+		font-size: 2.25rem;
+	}
+
+	.no-record-content p {
+		max-width: 100%;
+	}
+
+	.no-record-actions {
+		gap: 0.65rem;
+	}
+
+	.no-record-actions button {
+		min-width: 100%;
+	}
+
+	.no-record-loading {
+		padding: 1.5rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.no-record-card {
+		border-radius: 1rem;
+		padding: 1.25rem;
+	}
+
+	.no-record-content h5 {
+		font-size: 1rem;
+	}
+
+	.no-record-loader {
+		font-size: 2.25rem;
+	}
+}

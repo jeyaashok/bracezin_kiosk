@@ -1,0 +1,98 @@
+<!-- auth-page wrapper -->
+<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+  <div class="bg-overlay"></div>
+  <!-- auth-page content -->
+  <div class="auth-page-content overflow-hidden pt-lg-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card overflow-hidden">
+            <div class="row justify-content-center g-0">
+              <div class="col-lg-6">
+                <div class="p-lg-5 p-4 auth-one-bg h-100">
+                  <div class="bg-overlay"></div>
+                  <div class="position-relative h-100 d-flex flex-column">
+                    <div class="mb-4">
+                      <a routerLink="/" class="d-block">
+                        <img src="assets/images/logo-light.png" class="auth-page-img" alt="" height="18">
+                      </a>
+                    </div>
+                    <div class="mt-auto">
+                      <div class="mb-3">
+                        <i class="ri-double-quotes-l display-4 text-success"></i>
+                      </div>
+                      <auth-common-carousal></auth-common-carousal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="p-lg-5 p-4">
+                  <div>
+                    <h5 class="text-primary">Lock Screen</h5>
+                    <p class="text-muted">Enter your password to unlock the screen!</p>
+                  </div>
+                  <div class="user-thumb text-center">
+                    <img src="assets/images/users/avatar-1.jpg" class="rounded-circle img-thumbnail avatar-lg shadow"
+                      alt="thumbnail">
+                    <h5 class="font-size-15 mt-3">{{ item?.name || item?.email }}</h5>
+                  </div>
+                  @if(apiError){
+                    <div class="alert alert-danger border-0 mt-3 mb-0" role="alert">{{ apiError }}</div>
+                  }
+                  <div class="mt-4">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                      <div class="mb-3">
+                        <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                        <div class="position-relative auth-pass-inputgroup">
+                          <input [type]="fieldTextType ? 'text' : 'password'" class="form-control pe-5 password-input"
+                            placeholder="Enter password" id="password-input" aria-describedby="passwordInput" required
+                            formControlName="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+                          <button
+                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none shadow-none text-muted password-addon"
+                            type="button" id="password-addon">
+                            <i class="ri-eye-fill align-middle"
+                              [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType }"
+                              (click)="toggleFieldTextType()"></i>
+                          </button>
+                          @if (form?.get('password').touched && form?.get('password').errors?.required) {
+                            <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
+                          }
+                          @if (form?.get('password').hasError('minlength')) {
+                            <div class="invalid-feedback d-block">{{ 'Must be at least 8 Characters' | titlecase }}
+                            </div>
+                          }
+                          @if (form?.get('password').hasError('maxlength')) {
+                            <div class="invalid-feedback d-block">{{ 'Not Exceed more than 25 Characters' | titlecase }}
+                            </div>
+                          }
+                          @if (form?.get('password').hasError('pattern')) {
+                            <div class="invalid-feedback d-block">
+                              {{ 'Atleast 1-Upper(A-Z), 1-Lower(a-z), 1-number(0-9)' | titlecase }}
+                            </div>
+                          }
+                        </div>
+                      </div>
+                      <div class="mb-2 mt-4">
+                        <button class="btn btn-success w-100" type="submit">Unlock</button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="mt-5 text-center">
+                    <p class="mb-0">Not you ? return <a routerLink="/auth/signin"
+                        class="fw-semibold text-primary text-decoration-underline"> Signin</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <auth-common-footer></auth-common-footer>
+</div>
