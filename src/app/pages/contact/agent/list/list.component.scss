@@ -1,0 +1,68 @@
+.custom-datatable {
+  min-width: 860px;
+
+  .mat-mdc-header-row,
+  .mat-mdc-header-cell {
+    background-color: rgb(248 250 252 / 0.8) !important;
+    backdrop-filter: blur(6px);
+  }
+
+  .mat-column-code {
+    flex: 0 1 110px;
+    align-items: center;
+  }
+
+  .mat-column-date {
+    flex: 0 1 110px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mat-column-outstanding,
+  .mat-column-commission_ratio {
+    flex: 0 1 130px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mat-column-date {
+    flex: 0 1 100px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mat-column-updated_at,
+  .mat-column-state,
+  .mat-column-items {
+    flex: 0 1 100px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mat-column-action {
+    flex: 0 1 120px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .rowItem {
+    &:hover {
+      background-color: rgb(248 250 252 / 0.8);
+    }
+
+    &.activeRow {
+      background-color: rgb(220 240 252 / 0.8);
+    }
+  }
+
+}
+
+.listTable {
+  background-color: #f8fafc;
+
+  .mat-mdc-row {
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    box-shadow: 0px 1px 2px rgb(0 0 0 / 0.05);
+  }
+}

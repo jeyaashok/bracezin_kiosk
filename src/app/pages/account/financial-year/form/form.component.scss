@@ -1,0 +1,158 @@
+// ── Offcanvas shell ───────────────────────────────────────────────────────────
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.fy-offcanvas {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.oc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e8eaed;
+  flex-shrink: 0;
+}
+
+.oc-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #202124;
+  margin: 0;
+}
+
+.oc-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #5f6368;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: #f1f3f4; }
+}
+
+// ── Body ──────────────────────────────────────────────────────────────────────
+.oc-body {
+  flex: 1;
+  padding: 24px 20px;
+  overflow-y: auto;
+}
+
+// ── Form grid: 2-col for Year + Start Date, End Date below ───────────────────
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 16px;
+
+  // End Date spans only first column (left)
+  .field-group:nth-child(3) {
+    grid-column: 1;
+  }
+
+  @media (max-width: 400px) {
+    grid-template-columns: 1fr;
+
+    .field-group:nth-child(3) {
+      grid-column: 1;
+    }
+  }
+}
+
+// ── Field ─────────────────────────────────────────────────────────────────────
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #5f6368;
+
+  &.required::after {
+    content: ' *';
+    color: #d93025;
+  }
+}
+
+.field-input {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #202124;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+
+  &:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+  }
+
+  &.is-invalid {
+    border-color: #d93025;
+    &:focus { box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.15); }
+  }
+}
+
+.field-error {
+  font-size: 11px;
+  color: #d93025;
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────────
+.oc-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid #e8eaed;
+  flex-shrink: 0;
+
+  button {
+    min-width: 100px;
+    height: 36px;
+    padding: 0 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+  }
+}
+
+.btn-cancel {
+  background: #fff;
+  color: #d93025;
+  border-color: #d93025;
+
+  &:hover { background: rgba(217, 48, 37, 0.06); }
+}
+
+.btn-save {
+  background: #1a73e8;
+  color: #fff;
+  border-color: #1a73e8;
+
+  &:hover { background: #1558b0; }
+}

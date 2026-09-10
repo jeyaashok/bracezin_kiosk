@@ -1,0 +1,84 @@
+.date-range-panel {
+  max-width: 360px;
+  border: 1px solid var(--vz-border-color);
+  border-radius: 10px;
+  background-color: var(--vz-card-bg-custom);
+  padding: 8px;
+}
+
+.date-range-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.date-range-selected {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--vz-primary);
+  background-color: var(--vz-primary-bg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.date-range-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.date-range-btn {
+  border: 1px solid var(--vz-border-color);
+  background-color: var(--vz-body-bg);
+  color: var(--vz-body-color);
+  border-radius: 7px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  transition: all 0.2s ease;
+}
+
+.date-range-btn:hover {
+  border-color: var(--vz-primary);
+  color: var(--vz-primary);
+}
+
+.date-range-btn.active {
+  border-color: var(--vz-primary);
+  background-color: var(--vz-primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(64, 81, 137, 0.25);
+}
+
+.custom-range-inputs {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 6px;
+}
+
+.custom-range-inputs .form-control {
+  min-width: 0;
+  font-size: 11px;
+  padding: 4px 6px;
+}
+
+@media (max-width: 991.98px) {
+  .date-range-panel {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+}
+
+.btn-xs,
+.form-xs {
+  padding: 0.15rem 0.2rem !important;
+  font-size: 0.75rem !important;
+}

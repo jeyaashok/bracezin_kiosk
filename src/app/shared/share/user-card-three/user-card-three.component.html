@@ -1,0 +1,37 @@
+<div class="card ribbon-box right overflow-hidden">
+  <div class="card-body text-center p-4">
+    @if(user.is_sysAdmin) {
+    <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+      <i class="ri-flashlight-fill text-white align-bottom"></i>
+      <span class="trending-ribbon-text">System Admin</span>
+    </div>
+    }
+    <div class="avatar-lg mx-auto mb-3 cursor-pointer" (click)="onEdit.emit(user)">
+      <div class="avatar-title bg-light rounded-circle">
+        <ngx-avatars [name]="user.name" [src]="user.imageUrl" size="70" initialsSize="2" textSizeRatio="5"
+          [round]="true" [cornerRadius]="10"></ngx-avatars>
+      </div>
+    </div>
+    <h5 class="mb-1 mt-4">
+      <a href="javascript:void(0)" class="link-primary" (click)="onEdit.emit(user)">
+        {{ user?.name | titlecase }}
+      </a>
+    </h5>
+    <p class="text-muted mb-4">{{ user?.fullAddress }}</p>
+    <div class="row mt-4">
+      <div class="col-lg-6 border-end-dashed border-end grid text-center gap-2">
+        <i class="ri-phone-line align-bottom me-1 fs-24"></i>
+        <span class="text-muted">{{ user?.mobile }}</span>
+      </div>
+      <div class="col-lg-6 grid text-center gap-2">
+        <i class="ri-mail-line align-bottom me-1 fs-24"></i>
+        <span class="text-muted">{{ user?.email | lowercase }}</span>
+      </div>
+    </div>
+    <div class="mt-4 d-flex gap-2 justify-content-center">
+      <a href="javascript:void(0)" class="btn btn-light w-100" (click)="onChangePassword.emit(user)">Change
+        Password</a>
+      <a href="javascript:void(0)" class="btn btn-light w-100" (click)="onView.emit(user)">View</a>
+    </div>
+  </div>
+</div>

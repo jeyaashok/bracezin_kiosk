@@ -1,0 +1,59 @@
+<div class="card">
+  <div class="card-header align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Delivery Addresses</h4>
+    <div class="flex-shrink-0">
+      <button type="button" class="btn btn-soft-success btn-sm" (click)="addItem()" matTooltip="Add New Address"
+        aria-label="Add New Address">
+        <i class="ri-add-line align-bottom"></i> Add New Address
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    @if(user && user.addresses && user.addresses.length > 0) {
+    <div class="row">
+      @for(address of user.addresses; track address){
+      <div class="col-xxl-3 col-sm-6">
+        <div class="card profile-project-card profile-project-info bg-white rounded shadow-md hover:bg-gray-200">
+          <div class="card-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxFlex>
+              <h6 class="card-title mb-0">{{ address?.title || 'Default Address' | titlecase}}</h6>
+            </div>
+            <div fxFlex="30" class="inline-flex justify-content-end">
+              <button type="button" class="action-btn btn-warning" (click)="editItem(address)" matTooltip="Update"
+                aria-label="Update">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button type="button" class="action-btn btn-danger" (click)="delete(address)" matTooltip="Delete"
+                aria-label="Delete">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-text" *ngIf="address?.door_no">{{ address?.door_no }}</p>
+            <p class="card-text" *ngIf="address?.line_1">{{ address?.line_1 | titlecase }}</p>
+            <p class="card-text" *ngIf="address?.line_2">{{ address?.line_2 | titlecase }}</p>
+            <p class="card-text" *ngIf="address?.landmark">({{ address?.country | titlecase }})</p>
+            <p class="card-text" *ngIf="address?.region">Region: {{ address?.region | titlecase }}</p>
+            <p class="card-text" *ngIf="address?.city">City: {{ address?.city | titlecase }}</p>
+            <p class="card-text" *ngIf="address?.state">State: {{ address?.state | titlecase }}</p>
+            <p class="card-text">
+              <span *ngIf="address?.country">Country: {{ address?.country | titlecase }}</span>
+              <span *ngIf="address?.pincode"> - {{ address?.pincode | titlecase }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="text-center px-4 py-2">
+      <div class="grid border border-dashed border-2 p-3 rounded-2">
+        <i class="ri-information-line fs-24 text-muted"></i>
+        <h6 class="text-muted text-bold">No Records !!!</h6>
+        <span class="text-muted">No Delivery Addresses found...</span>
+      </div>
+    </div>
+    }
+  </div>
+</div>

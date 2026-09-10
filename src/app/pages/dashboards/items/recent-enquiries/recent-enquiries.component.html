@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-header align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Latest Enquiries</h4>
+    <div class="flex-shrink-0">
+      <a routerLink="/application/enquiry/list" class="text-decoration-underline fs-13">View All</a>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive table-card">
+      <table class="table table-borderless align-middle mb-0">
+        <thead class="table-light text-muted">
+          <tr>
+            <th scope="col">Enquiry Code</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Product</th>
+            <th scope="col">Status</th>
+            <th scope="col">Recent Updated</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(dashboard.recentEnquiries.length > 0){
+          @for(enquiry of dashboard.recentEnquiries; track $index){
+          <tr>
+            <td><a routerLink="/application/enquiry/edit/{{enquiry.id}}"
+                class="fw-medium link-primary">{{enquiry.code | uppercase}}</a></td>
+            <td>{{ enquiry.customerName | titlecase}}</td>
+            <td>{{ enquiry.itemsCount }}</td>
+            <td>
+              <span class="badge border border-secondary text-secondary" [ngClass]="{
+                'border-success text-success': enquiry.state === 'ordered',
+                'border-info text-info':  enquiry.state === 'pending',
+                'border-primary text-primary': enquiry.state === 'approved',
+                'border-secondary text-secondary': enquiry.state === 'delivered',
+                'border-warning text-warning': (enquiry.state === 'dispatched' || enquiry.state === 'quoted'),
+                'border-danger text-danger': enquiry.state === 'rejected' }">
+                {{ enquiry.state || 'Pending' | titlecase }}
+              </span>
+            </td>
+            <td class="text-muted">{{ enquiry.updated_at | date:'short' }}</td>
+            <td>
+              <a routerLink="/application/enquiry/edit/{{enquiry.id}}" class="text-muted">
+                <i class="ri-eye-line fs-16"></i>
+              </a>
+            </td>
+          </tr>
+          }
+          } @else {
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              <div class="text-center px-4 py-2">
+                <div class="grid border border-dashed border-2 p-3 rounded-2">
+                  <i class="ri-information-line fs-24 text-muted"></i>
+                  <h6 class="text-muted text-bold">No Records !!!</h6>
+                  <span class="text-muted">No Recent Enquiries found...</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

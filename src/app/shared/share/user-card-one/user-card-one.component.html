@@ -1,0 +1,82 @@
+@if(viewMode == 'grid') {
+<div class="card mb-0">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <div class="flex-shrink-0">
+        <div class="avatar-lg bg-light rounded p-1">
+          <ngx-avatars [name]="user.name" [src]="user.imageUrl" size="70" initialsSize="2" textSizeRatio="5"
+            [round]="true"></ngx-avatars>
+        </div>
+      </div>
+      <div class="flex-grow-1 ms-3"> <a routerLink="/pages/profile">
+          <h5 class="fs-16 mb-1">{{user.name}}</h5>
+        </a>
+        <p class="text-muted mb-2">{{user.mobile}}</p>
+        <p class="text-muted mb-2">{{user.email}}</p>
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <div class="badge" [ngClass]="{'bg-danger-subtle text-danger': user.type == 'vendor' ,
+					'bg-success-subtle text-success': user.type == 'customer' ,
+					'bg-secondary-subtle text-secondary': user.type == 'agent',
+					'bg-info-subtle text-info': user.type == 'staff',
+					'bg-primary-subtle text-primary': user.type == 'super-admin' }">
+            <i class="mdi mdi-star me-1"></i>
+            {{ user.type | titlecase }}
+          </div>
+
+          <div class="text-muted">{{ user?.walletBalance || 0 | currency: 'USD': 'symbol': '1.3-3'}} Outstanding</div>
+        </div>
+        <div class="d-flex gap-4 mt-2 text-muted">
+          <div *ngIf="user.fullAddress">
+            <i class="ri-map-pin-2-line text-primary me-1 align-bottom"></i>
+            {{user.fullAddress}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+@if(viewMode == 'list') {
+<div class="col-md-6 col-lg-12">
+  <div class="card mb-0">
+    <div class="card-body">
+      <div class="d-lg-flex align-items-center">
+        <div class="flex-shrink-0">
+          <!-- <div class="avatar-sm rounded">
+						@if(user && user.imageUrl) {
+						<img [alt]="user.name" [attr.src]="user.imageUrl" onerror="this.src='assets/images/other/no.png'"
+							class="member-img img-fluid d-block rounded">
+						} @else {
+						<img src="assets/images/other/no.png" alt="" class="member-img img-fluid d-block rounded">
+						}
+					</div> -->
+          <div class="avatar-sm rounded">
+            <ngx-avatars [name]="user.name" [src]="user.imageUrl" size="70" initialsSize="2" textSizeRatio="5"
+              [round]="true"></ngx-avatars>
+          </div>
+        </div>
+        <div class="ms-lg-3 my-3 my-lg-0"> <a routerLink="/pages/profile">
+            <h5 class="fs-16 mb-2">{{user.name}}</h5>
+          </a>
+          <p class="text-muted mb-0" *ngIf="user.mobile">{{ user.mobile}}</p>
+          <p class="text-muted mb-0" *ngIf="user.email">{{ user.email | lowercase }}</p>
+        </div>
+        <div class="d-flex gap-4 mt-0 text-muted mx-auto">
+          <div><i class="ri-map-pin-2-line text-primary me-1 align-bottom"></i> {{user.fullAddress}}</div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 align-items-center mx-auto my-3 my-lg-0">
+          <div class="badge" [ngClass]="{'bg-danger-subtle text-danger': user.type == 'vendor' ,
+					'bg-success-subtle text-success': user.type == 'customer' ,
+					'bg-secondary-subtle text-secondary': user.type == 'agent',
+					'bg-info-subtle text-info': user.type == 'staff',
+					'bg-primary-subtle text-primary': user.type == 'super-admin' }">
+            {{user.type | titlecase}}
+          </div>
+          <div class="text-muted">{{  0 | currency: 'USD': 'symbol': '1.3-3'}} Outstanding</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

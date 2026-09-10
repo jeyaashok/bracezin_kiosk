@@ -1,0 +1,61 @@
+<div class="card">
+  <div class="card-header align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Recent Sale Orders of Commission</h4>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive table-card">
+      <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+        <thead class="text-muted table-light">
+          <tr>
+            <th scope="col">Order Number</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Delivery Date</th>
+            <th scope="col">Items</th>
+            <th scope="col">Status</th>
+            <th scope="col text-end">Commission Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(user && user.latest_agent_sale_orders && user.latest_agent_sale_orders.length > 0) {
+          @for(order of user.latest_agent_sale_orders; track order) {
+          <tr>
+            <td>
+              <a href="javascript:void(0);" class="fw-medium link-primary">{{ order.code | uppercase}}</a>
+            </td>
+            <td>{{ order.order_date | date:'dd MMM yyyy' }}</td>
+            <td>{{ order.delivery_date | date:'dd MMM yyyy' }}</td>
+            <td>{{ order?.itemsCount || 'N/A' }}</td>
+            <td>
+              <div class="grid text-end cursor-pointer">
+                <span class="badge border border-secondary text-secondary" [ngClass]="{
+                  'border-success text-success': order.state === 'ordered',
+                  'border-primary text-primary': order.state === 'approved',
+                  'border-secondary text-secondary': order.state === 'delivered',
+                  'border-warning text-warning': order.state === 'dispatched',
+                  'border-danger text-danger': order.state === 'rejected' }">
+                  {{ order.state || 'Pending' | titlecase }}
+                </span>
+              </div>
+            </td>
+            <td class="text-end">
+              <span class="text-success">{{ order?.commission | currency:'USD':'symbol':'1.3-3' }}</span>
+            </td>
+          </tr>
+          }
+          } @else {
+          <tr>
+            <td colspan="6" class="text-center px-4 py-2">
+              <div class="grid border border-dashed border-2 p-3 rounded-2">
+                <i class="ri-information-line fs-24 text-muted"></i>
+                <h6 class="text-muted text-bold">No Records !!!</h6>
+                <span class="text-muted">No Recent sale orders of Commission found...</span>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

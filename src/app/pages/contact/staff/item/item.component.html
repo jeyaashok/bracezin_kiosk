@@ -1,0 +1,135 @@
+<mat-drawer-container class="mx-n4 mt-n4" *ngIf="staff && staff.id; else loading">
+
+  <mat-drawer #sideBar [autoFocus]="false" [mode]="'over'" [position]="'end'" class="side-drawer">
+    @if(sideView === 'form') {
+    <app-staff-form [staff]="staff" (onClose)="sideBar.close()"></app-staff-form>
+    }
+    @if(sideView === 'address') {
+    <utils-address-form [item]="selectedAddress" [user]="staff" (onClose)="sideBar.close(); sideView = null;">
+    </utils-address-form>
+    }
+    @if(sideView === 'payment-form') {
+    <utils-payment-form [staffId]="staff.id" [user]="staff" (onClose)="sideBar.close(); sideView = null;">
+    </utils-payment-form>
+    }
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="profile-foreground position-relative">
+      <div class="profile-wid-bg">
+        <img src="assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
+      </div>
+    </div>
+
+    <div class="pt-4 px-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
+      <div class="row g-4">
+        <div class="col-auto">
+          <div class="avatar-lg">
+            <ngx-avatars [name]="staff.name" [src]="staff.imageUrl" size="80" initialsSize="2" textSizeRatio="3"
+              [round]="true"></ngx-avatars>
+          </div>
+        </div>
+        <div class="col">
+          <div class="p-2">
+            <h3 class="text-white mb-1">{{ staff.name | titlecase }}</h3>
+            <p class="text-white text-opacity-75">{{ staff.type | titlecase }}</p>
+            <div class="grid justify-content-start align-items-center text-white-50 gap-0 mt-1">
+              <div *ngIf="staff.mobile">
+                <i class="ri-phone-line me-1 text-white text-opacity-75 fs-14 align-middle"></i>
+                {{ staff.mobile }}
+              </div>
+              <div *ngIf="staff.email">
+                <i class="ri-mail-line me-1 text-white text-opacity-75 fs-14 align-middle"></i>
+                {{ staff.email | lowercase }}
+              </div>
+              <div *ngIf="staff.fullAddress">
+                <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-14 align-middle"></i>
+                {{ staff.fullAddress | titlecase }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-2 order-last order-lg-0">
+          <div class="row text text-white-50 text-center">
+            <div class="col-lg-6 col-4">
+              <div class="p-2">
+                <h4 class="text-white mb-1">{{ staff.code | uppercase }}</h4>
+                <p class="fs-14 mb-0">Code</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 px-4">
+        <div>
+          <div class="d-flex profile-wrapper">
+            <!-- Nav tabs -->
+            <ul ngbNav #staffNav="ngbNav" [activeId]="1"
+              class="nav nav-pills animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1" role="tablist">
+
+              <li [ngbNavItem]="1" class="nav-item">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                  <i class="ri-airplay-fill d-inline-block d-md-none"></i>
+                  <span class="d-none d-md-inline-block">Overview</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    <div class="col-xxl-3">
+                      <app-contact-card-profile-ratio [user]="staff"></app-contact-card-profile-ratio>
+                      <app-contact-card-info [user]="staff"></app-contact-card-info>
+                      <button type="button" class="btn btn-danger w-100 mb-2" (click)="changePassword()">
+                        <i class="ri-lock-line align-bottom"></i> Change Password
+                      </button>
+                    </div>
+                    <div class="col-xxl-9">
+                      <app-contact-card-about [user]="staff"></app-contact-card-about>
+                      <app-contact-card-detail [user]="staff"></app-contact-card-detail>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+
+              <li [ngbNavItem]="2" class="nav-item">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                  <i class="ri-airplay-fill d-inline-block d-md-none"></i>
+                  <span class="d-none d-md-inline-block">Roles & Permissions</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="row wrap">
+                    <div class="col-12">
+                      <app-contact-card-roles-permissions [user]="staff"
+                        [permissions]="permissions"></app-contact-card-roles-permissions>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+
+            </ul>
+            <div class="flex-shrink-0">
+              <a href="javascript:void(0);" (click)="location.back()" class="btn btn-warning me-2 text-gray-800">
+                <i class="ri-arrow-left-line align-bottom text-gray-800"></i> Back
+              </a>
+              <a href="javascript:void(0);" (click)="editForm()" class="btn btn-info me-2"
+                *ngIf="userService.permissionMatch(['manage staff'])">
+                <i class="ri-edit-box-line align-bottom"></i> Edit
+              </a>
+            </div>
+          </div>
+          <div class="tab-content pt-4 text-muted">
+            <div [ngbNavOutlet]="staffNav"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<ng-template #loading>
+  <div class="section-height">
+    <lib-norecord title="Loading Staff..." subTitle="Please wait while we load the staff details."></lib-norecord>
+  </div>
+</ng-template>

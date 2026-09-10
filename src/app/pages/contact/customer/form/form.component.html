@@ -1,0 +1,296 @@
+<form [formGroup]="form" class="card form-dialog">
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="mb-0 text-white">{{ dialogTitle | titlecase }}</h5>
+    </div>
+    <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn" aria-label="Close"
+      (click)="closeView()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="modal-team-cover position-relative mb-4 overflow-hidden rounded"
+      style="margin: -16px -16px 16px -16px;">
+      <img src="assets/images/small/img-9.jpg" alt="" id="cover-img" class="img-fluid w-100"
+        style="height:120px; object-fit:cover;">
+    </div>
+
+    <div class="text-center mb-4" style="margin-top:-48px;">
+      <div class="position-relative d-inline-block">
+        <div class="position-absolute bottom-0 end-0">
+          <label for="member-image-input" class="mb-0">
+            <div class="avatar-xs">
+              <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                <i class="ri-image-fill"></i>
+              </div>
+            </div>
+          </label>
+          <input class="form-control d-none" id="member-image-input" type="file"
+            accept="image/png, image/gif, image/jpeg" (change)="imageHandler($event)">
+        </div>
+        <div class="avatar-lg">
+          <div class="avatar-title bg-light rounded-circle border">
+            @if(customer && customer.id) {
+            <ngx-avatars [name]="customer.name" [src]="customer.imageUrl" size="70" initialsSize="2" textSizeRatio="5"
+              [round]="true"></ngx-avatars>
+            } @else {
+            <img src="assets/images/users/user-dummy-img.jpg" id="member-img" class="avatar-md rounded-circle h-auto" />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-2">
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'name' | titlecase }}</label>
+        <input type="text" name="name" formControlName="name" class="form-control"
+          placeholder="{{ 'Fullname' | titlecase }}" required matTooltip="Consumer Name" maxlength="50" minlength="3" />
+        @if (form?.get('name').touched && form?.get('name').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('name').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min3' | titlecase }}</div>
+        }
+        @if (form?.get('name').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'email' | titlecase }}</label>
+        <input type="email" name="email" formControlName="email" class="form-control"
+          placeholder="{{ 'Email' | titlecase }}" required matTooltip="Consumer Email" maxlength="120" minlength="5" />
+        @if (form?.get('email').touched && form?.get('email').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('email').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min5' | titlecase }}</div>
+        }
+        @if (form?.get('email').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max120' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'mobile' | titlecase }}</label>
+        <input type="text" name="mobile" formControlName="mobile" class="form-control"
+          placeholder="{{ 'Mobile' | titlecase }}" required matTooltip="Consumer Mobile" maxlength="15" minlength="8" />
+        @if (form?.get('mobile').touched && form?.get('mobile').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('mobile').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min8' | titlecase }}</div>
+        }
+        @if (form?.get('mobile').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max15' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'company_name' | titlecase }}</label>
+        <input type="text" name="company_name" formControlName="company_name" class="form-control"
+          placeholder="{{ 'Company Name' | titlecase }}" matTooltip="Company Name" maxlength="50" minlength="1" />
+        @if (form?.get('company_name').touched && form?.get('company_name').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('company_name').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('company_name').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'company_register_no' | titlecase }}</label>
+        <input type="text" name="company_register_no" formControlName="company_register_no" class="form-control"
+          placeholder="{{ 'Company Register No' | titlecase }}" matTooltip="Company Register No" maxlength="50"
+          minlength="3" />
+        @if (form?.get('company_register_no').touched && form?.get('company_register_no').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('company_register_no').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('company_register_no').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'vat_number' | titlecase }}</label>
+        <input type="text" name="vat_number" formControlName="vat_number" class="form-control"
+          placeholder="{{ 'VAT Number' | titlecase }}" matTooltip="VAT Number" maxlength="50" minlength="3" />
+        @if (form?.get('vat_number').touched && form?.get('vat_number').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('vat_number').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min3' | titlecase }}</div>
+        }
+        @if (form?.get('vat_number').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'ein_number' | titlecase }}</label>
+        <input type="text" name="ein_number" formControlName="ein_number" class="form-control"
+          placeholder="{{ 'EIN Number' | titlecase }}" matTooltip="EIN Number" maxlength="50" minlength="3" />
+        @if (form?.get('ein_number').touched && form?.get('ein_number').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('ein_number').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('ein_number').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'address_line1' | titlecase }}</label>
+        <input type="text" name="address_line1" formControlName="address_line1" class="form-control"
+          placeholder="{{ 'Address Line 1' | titlecase }}" matTooltip="Address Line 1" maxlength="120" minlength="1" />
+        @if (form?.get('address_line1').touched && form?.get('address_line1').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('address_line1').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('address_line1').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max120' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'address_line2' | titlecase }}</label>
+        <input type="text" name="address_line2" formControlName="address_line2" class="form-control"
+          placeholder="{{ 'Address Line 2' | titlecase }}" matTooltip="Address Line 2" maxlength="120" minlength="1" />
+        @if (form?.get('address_line2').touched && form?.get('address_line2').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('address_line2').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('address_line2').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max120' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'landmark' | titlecase }}</label>
+        <input type="text" name="landmark" formControlName="land_mark" class="form-control"
+          placeholder="{{ 'Landmark' | titlecase }}" matTooltip="Landmark" maxlength="120" minlength="1" />
+        @if (form?.get('land_mark').touched && form?.get('land_mark').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('land_mark').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('land_mark').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max120' | titlecase }}</div>
+        }
+      </div>
+
+      <!-- Country -->
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'country' | titlecase }}</label>
+        <input type="text" name="country" formControlName="country" class="form-control"
+          placeholder="{{ 'Country' | titlecase }}" matTooltip="Country" maxlength="50" minlength="1"
+          list="country-options" (input)="onCountryChange($any($event.target).value)" />
+        <datalist id="country-options">
+          @for (country of countries; track country) {
+          <option [value]="country.name"></option>
+          }
+        </datalist>
+        @if (form?.get('country').touched && form?.get('country').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('country').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('country').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <!-- State -->
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'state' | titlecase }}</label>
+        <input type="text" name="state" formControlName="state" class="form-control"
+          placeholder="{{ 'State' | titlecase }}" matTooltip="State" maxlength="50" minlength="1" list="state-options"
+          (input)="onStateChange($any($event.target).value)" />
+        <datalist id="state-options">
+          @for (state of states; track state) {
+          <option [value]="state"></option>
+          }
+        </datalist>
+        @if (form?.get('state').touched && form?.get('state').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('state').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('state').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <!-- City -->
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'city' | titlecase }}</label>
+        <input type="text" name="city" formControlName="city" class="form-control"
+          placeholder="{{ 'City' | titlecase }}" matTooltip="City" maxlength="50" minlength="1" list="city-options" />
+        <datalist id="city-options">
+          @for (city of cities; track city) {
+          <option [value]="city"></option>
+          }
+        </datalist>
+        @if (form?.get('city').touched && form?.get('city').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('city').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+        }
+        @if (form?.get('city').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+      <div class="col-12 mb-2">
+        <label class="form-label fw-semibold">{{ 'zipcode' | titlecase }}</label>
+        <input type="text" name="pincode" formControlName="pincode" class="form-control"
+          placeholder="{{ 'Zipcode' | titlecase }}" matTooltip="Zipcode" maxlength="10" minlength="3" />
+        @if (form?.get('pincode').touched && form?.get('pincode').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('pincode').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min3' | titlecase }}</div>
+        }
+        @if (form?.get('pincode').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max10' | titlecase }}</div>
+        }
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-footer bg-white text-end">
+    <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeView()">
+      {{ 'cancel' | titlecase }}
+    </button>
+    @if (action != 'edit' && userService.permissionMatch(['add customer'])) {
+    <button type="button" class="btn btn-primary" (click)="create()" [disabled]="form.invalid">
+      {{ 'create' | titlecase }}
+    </button>
+    }
+    @if (action == 'edit' && userService.permissionMatch(['manage customer'])) {
+    <button type="button" class="btn btn-success" (click)="update(customer)" [disabled]="form.invalid || !form.dirty">
+      {{ 'save' | titlecase }}
+    </button>
+    }
+  </div>
+</form>

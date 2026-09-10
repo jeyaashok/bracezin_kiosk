@@ -1,0 +1,11 @@
+<ngb-carousel [showNavigationArrows]="showNavigationArrows">
+  @for(quote of quotes; track quote){
+    <ng-template ngbSlide>
+      <div class="carousel-inner text-center text-white-50 pb-5">
+        <div class="carousel-item active">
+          <p class="fs-15 fst-italic">" {{ quote | titlecase }} "</p>
+        </div>
+      </div>
+    </ng-template>
+  }
+</ngb-carousel>

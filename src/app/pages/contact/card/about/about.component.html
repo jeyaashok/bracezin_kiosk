@@ -1,0 +1,47 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title mb-3">About</h5>
+    <p>{{user.name}}</p>
+    <div class="row">
+      <div class="col-4 col-md-4">
+        <div class="d-flex mt-4">
+          <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+            <div class="avatar-title bg-light rounded-circle fs-16 text-primary shadow">
+              <i class="ri-user-2-fill"></i>
+            </div>
+          </div>
+          <div class="flex-grow-1 overflow-hidden">
+            <p class="mb-1">Code :</p>
+            <h6 class="text-truncate mb-0 fw-semibold">{{ (user.code || 'N/A') | uppercase }}</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 col-md-4">
+        <div class="d-flex mt-4">
+          <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+            <div class="avatar-title bg-light rounded-circle fs-16 text-primary shadow">
+              <i class="ri-phone-line"></i>
+            </div>
+          </div>
+          <div class="flex-grow-1 overflow-hidden">
+            <p class="mb-1">Mobile :</p>
+            <a href="javascript:void(0);" class="fw-semibold">{{ user.mobile || 'N/A' }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 col-md-4">
+        <div class="d-flex mt-4">
+          <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+            <div class="avatar-title bg-light rounded-circle fs-16 text-primary shadow">
+              <i class="ri-global-line"></i>
+            </div>
+          </div>
+          <div class="flex-grow-1 overflow-hidden">
+            <p class="mb-1">Email :</p>
+            <a href="javascript:void(0);" class="fw-semibold">{{ user.email || 'N/A' | lowercase }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

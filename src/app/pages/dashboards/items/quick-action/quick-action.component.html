@@ -1,0 +1,28 @@
+<div class="card card-height-100">
+  <div class="card-header align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Quick Actions</h4>
+  </div>
+  <div class="card-body">
+    <div fxLayout="row wrap" fxLayoutAlign="space-around" fxLayoutGap="4px">
+      @for(action of quickActions; track $index){
+      <div fxFlex="calc(50% - 4px)" fxFlex.xs="100%" class="mb-1">
+        <a routerLink="{{action.link}}" class="d-block text-decoration-none quick-action-card-link">
+          <div class="border border-dashed rounded p-3 text-center h-100 quick-action-card">
+            <div class="avatar-sm mx-auto mb-2">
+              <span class="avatar-title {{ action.color }} text-white rounded-circle fs-16">
+                <i class="{{action.icon}}"></i>
+              </span>
+            </div>
+            <p class="text-muted mb-0 fs-12">{{action.label}}</p>
+          </div>
+        </a>
+      </div>
+      }
+    </div>
+    <div class="mt-3 text-center">
+      <a routerLink="/sales/quotation/list" class="btn btn-soft-warning btn-sm shadow-none w-100">
+        <i class="ri-time-line align-middle me-1"></i> View Quotations
+      </a>
+    </div>
+  </div>
+</div>

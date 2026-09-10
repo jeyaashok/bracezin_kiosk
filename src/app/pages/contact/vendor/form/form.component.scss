@@ -1,0 +1,13 @@
+.job-list-row {
+	min-height: calc(100vh - 280px);
+	max-height: calc(100vh - 280px);
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.enquiry-items {
+	min-height: 50vh;
+	max-height: 50vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+}

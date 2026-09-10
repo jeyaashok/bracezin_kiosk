@@ -1,0 +1,68 @@
+<div class="card team-box">
+  <div class="team-cover">
+    <img src="assets/images/other/{{ user.type | lowercase }}_bg.jpg" alt="" class="img-fluid" />
+  </div>
+  <div class="card-body p-4">
+    <div class="row align-items-center team-row">
+      <div class="col team-settings">
+        <div class="row">
+          <div class="col">
+            <div class="flex-shrink-0 me-2">
+              <button type="button" *ngIf="user.type ==='staff'"
+                class="btn btn-light btn-icon rounded-circle btn-sm favourite-btn star_{{user.id}}"
+                [ngClass]="{'active': user.isActive == true}" (click)="activeMenu(user.id)">
+                <i class="ri-star-fill fs-14"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col text-end dropdown" ngbDropdown>
+            <a href="javascript:void(0);" class="arrow-none" id="dropdownMenuLink2" data-bs-toggle="dropdown"
+              aria-expanded="false" ngbDropdownToggle>
+              <i class="ri-more-fill fs-17"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink2" ngbDropdownMenu>
+              <li><a class="dropdown-item" (click)="onEdit.emit(user)" href="javascript:void(0);"><i
+                    class="ri-pencil-line me-2 align-bottom text-muted"></i>Edit</a>
+              </li>
+              <li><a class="dropdown-item" href="javascript:void(0);" (click)="onDelete.emit(user)"><i
+                    class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col">
+        <div class="team-profile-img">
+          <ngx-avatars [name]="user.name" [src]="user.imageUrl" size="70" initialsSize="2" textSizeRatio="5"
+            [round]="true"></ngx-avatars>
+          <div class="team-content">
+            <a href="javascript:void(0);" (click)="onView.emit(user)">
+              <h5 class="fs-16 mb-1">{{user.name}}</h5>
+            </a>
+            <p class="text-muted mb-0">{{user.email}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col">
+        <div class="row text-muted text-center">
+          <div class="col-6 border-end border-end-dashed">
+            <!-- <h5 class="mb-1">{{user?.ordersCount || 0}}</h5> -->
+            <h5 class="mb-1">{{0}}</h5>
+            <p class="text-muted mb-0">Orders</p>
+          </div>
+          <div class="col-6">
+            <!-- <h5 class="mb-1">{{user?.walletBalance || 0 | currency: user?.defaultCurrency}}</h5> -->
+            <h5 class="mb-1">{{ user?.walletBalance || 0 | currency: 'USD' : 'symbol' : '1.3-3'}}</h5>
+            <p class="text-muted mb-0">Outstanding</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col">
+        <div class="text-end">
+          <a class="btn btn-light view-btn" href="javascript:void(0);" (click)="onView.emit(user)">View
+            More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

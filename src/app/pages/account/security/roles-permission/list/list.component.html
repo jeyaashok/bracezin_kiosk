@@ -1,0 +1,92 @@
+<app-breadcrumbs title="Roles & Permissions" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<mat-drawer-container>
+
+  <mat-drawer #sideBar [autoFocus]="false" [mode]="'over'" [position]="'end'" class="side-drawer">
+    @if(sideView === 'form' && userService.permissionMatch(['add role permission', 'manage role permission'])) {
+    <app-role-form [role]="role" (onClose)="sideBar.close()"></app-role-form>
+    }
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="items-layout">
+      <div class="gap-2 mb-4" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="25">
+          <div class="search-wrapper">
+            <lib-search search="true" (onSearch)="permissionService.onSearch($event)"></lib-search>
+          </div>
+        </div>
+        <div fxFlex="25" class="flex justify-content-end gap-2">
+          <button (click)="saveChanges()" class="btn btn-xs btn-secondary rounded-full"
+            *ngIf="rolePermissions.length > 0 && userService.permissionMatch(['manage role permission'])">
+            <i class="ri-add-line align-bottom me-1"></i>
+            Save Changes
+          </button>
+          <button *ngIf="userService.permissionMatch(['add role permission'])" (click)="addRole()"
+            class="btn btn-xs btn-primary rounded-full">
+            <i class="ri-add-line align-bottom me-1"></i>
+            Add New Role
+          </button>
+        </div>
+      </div>
+
+      <div class="table-card gridjs-border-none items-table-shell">
+        @if(permissions && permissions.length > 0){
+        <div class="table-responsive table-height rolesTable">
+          <table class="table align-middle custom-datatable">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" rowspan="2" class="headerFirst">Permissions</th>
+                <th scope="col" class="text-center" [attr.colspan]="filteredRoles.length">Roles</th>
+              </tr>
+              <tr>
+                @for(role of filteredRoles; track role) {
+                <th scope="col" class="text-center" (dblclick)="addRole(role)">{{ role.name | titlecase }}</th>
+                }
+              </tr>
+            </thead>
+
+            <tbody>
+              @for(order of orderSetting; track order) {
+              @for (module of groupedPermissions | keyvalue; track
+              module.key) {
+              @if(matchOrder(module.key, order)) {
+              @if(module.value && module.value.length > 0) {
+              <tr class="subHeaderRow">
+                <td scope="col" [attr.colspan]="filteredRoles.length + 1">{{ module.key | titlecase }}</td>
+              </tr>
+              <tr class="rowItem" *ngFor="let permission of module.value; let last = last"
+                [ngClass]="{ 'lastRow': last }">
+                <td>{{ permission.name | titlecase }}</td>
+                @for (role of filteredRoles; track role) {
+                <td class="text-center">
+                  <input type="checkbox" (change)="togglePermission(permission, role, $event)"
+                    [checked]="checkPermission(permission, role)"
+                    [disabled]="!userService.permissionMatch(['manage role permission'])" />
+                </td>
+                }
+              </tr>
+              <tr class="emptyRow">
+                <td scope="col" [attr.colspan]="filteredRoles.length + 1" class="text-center"></td>
+              </tr>
+              }
+              }
+              }
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="px-3 py-2 w-full bg-light">
+          <mat-paginator #paginator [length]="dataLength" [pageSize]="param.paginate" [pageSizeOptions]="[25, 50, 100]"
+            showFirstLastButtons (page)="permissionService.pageEvent($event)" aria-label="Permission pagination">
+          </mat-paginator>
+        </div>
+        } @else {
+        <div class="section-height">
+          <lib-norecord title="No Permissions Found" subTitle="We couldn't find any Permissions."></lib-norecord>
+        </div>
+        }
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -1,0 +1,50 @@
+.enquiry-card {
+  border-radius: 16px;
+  transition: box-shadow 0.2s ease;
+  padding: 0px !important;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .card-header {
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+}
+
+.icon-box-sm {
+  width: 36px;
+  height: 36px;
+}
+
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.product-row {
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.04);
+  }
+}
+
+.products-scroll-wrapper {
+  .products-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.scrollable .products-list {
+    max-height: 116px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+}

@@ -1,0 +1,48 @@
+<form [formGroup]="form" class="card form-dialog">
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="mb-0 text-white">{{ dialogTitle | titlecase }}</h5>
+    </div>
+    <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn" aria-label="Close"
+      (click)="closeView()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="row g-2">
+
+      <div class="col-12">
+        <label class="form-label fw-semibold">{{ 'name' | titlecase }}</label>
+        <input type="text" name="name" formControlName="name" class="form-control"
+          placeholder="{{ 'Name' | titlecase }}" required matTooltip="Name" maxlength="50" minlength="3" />
+        @if (form?.get('name').touched && form?.get('name').errors?.required) {
+        <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+        }
+        @if (form?.get('name').hasError('minlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.min3' | titlecase }}</div>
+        }
+        @if (form?.get('name').hasError('maxlength')) {
+        <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+        }
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-footer bg-white text-end">
+    <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeView()">
+      {{ 'cancel' | titlecase }}
+    </button>
+    @if (action != 'edit' && userService.permissionMatch(['add role permission'])) {
+    <button type="button" class="btn btn-primary" (click)="create()" [disabled]="form.invalid">
+      {{ 'create' | titlecase }}
+    </button>
+    }
+    @if (action == 'edit' && userService.permissionMatch(['manage role permission'])) {
+    <button type="button" class="btn btn-success" (click)="update(role)" [disabled]="form.invalid || !form.dirty">
+      {{ 'save' | titlecase }}
+    </button>
+    }
+  </div>
+</form>

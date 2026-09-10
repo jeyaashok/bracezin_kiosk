@@ -1,0 +1,167 @@
+<div class="card form-dialog payment-history-list-page">
+  <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="mb-0 text-white">{{ 'Recent Payments' | uppercase }}</h5>
+    </div>
+    <div class="d-flex align-items-center justify-content-end gap-2">
+      <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn"
+        aria-label="Close" (click)="closeView()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  @if(viewMode === 'list') {
+  <div class="card-body bg-gray-100 p-0">
+    <div class="payment-history-scroll" data-simplebar>
+      @if (items && items.length > 0) {
+      <ul class="list-group p-2">
+        <li class="list-group-item-action p-2 mb-2 border border-light-subtle bg-white rounded shadow-md"
+          *ngFor="let item of items">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0 me-2">
+              <div
+                class="avatar-sm bg-light p-0 d-flex align-items-center justify-content-center rounded-circle overflow-hidden border border-light-subtle">
+                <ngx-avatars [value]="item.type === 'credit' ? 'Cr' : 'Dt'" size="40" initialsSize="2" textSizeRatio="3"
+                  [round]="false" [cornerRadious]="5"
+                  [bgColor]="item.type === 'credit' ? '#3fc37e' : '#eb5966'"></ngx-avatars>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="fs-12 mb-0 fw-semibold">{{ item.code | titlecase }}</h6>
+              <small class="text-muted">{{ item.description }}</small>
+              <div class="d-flex align-items-center mt-1 gap-1">
+                <span *ngIf="item.type === 'credit'" class="badge bg-success-subtle text-success"
+                  aria-label="Payment Mode">{{ item?.type | titlecase }}</span>
+                <span *ngIf="item.type === 'debit'" class="badge bg-danger-subtle text-danger"
+                  aria-label="Payment Mode">{{ item?.type | titlecase }}</span>
+                <span class="badge bg-secondary-subtle text-dark" aria-label="Created At">
+                  <i class="ri-calendar-line"></i>
+                  {{ item?.created_at | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+                <span class="badge bg-orange-200 text-dark"
+                  aria-label="Closing Balance">{{ item?.recent_balance | currency:'USD':'symbol':'1.3-3' }}</span>
+              </div>
+            </div>
+            <div class="flex-shrink-0 text-end">
+              <span class="fs-14 fw-bold d-block"
+                [ngClass]="item.type === 'credit' ? 'text-success' : 'text-danger'">{{ item.price | currency:'USD':'symbol':'1.3-3' }}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+      } @else {
+      <lib-norecord title="No Payments Found" subTitle="No payment history to show yet."></lib-norecord>
+      }
+    </div>
+  </div>
+  <div class="card-footer bg-white text-center">
+    <button type="button" class="btn btn-success" aria-label="Make Payment" (click)="makePayment()">
+      <mat-icon class="align-middle me-1">payments</mat-icon>{{ 'make payment' | titlecase }}
+    </button>
+  </div>
+  } @else if(viewMode === 'form') {
+  <form [formGroup]="form" class="card form-dialog">
+    <div class="card-body">
+      <div class="row g-2">
+
+        <!-- Amount -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'amount' | titlecase }}</label>
+          <input type="number" name="amount" formControlName="amount" class="form-control"
+            placeholder="{{ 'Amount' | titlecase }}" required matTooltip="Amount" [max]="maxAmount" min="1"
+            step="0.01" />
+          @if (form?.get('amount').touched && form?.get('amount').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('amount').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min3' | titlecase }}</div>
+          }
+          @if (form?.get('amount').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Date -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'date' | titlecase }}</label>
+          <input type="date" name="date" formControlName="date" class="form-control"
+            placeholder="{{ 'Date' | titlecase }}" required matTooltip="Date" />
+          @if (form?.get('date').touched && form?.get('date').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('date').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('date').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Method -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'method' | titlecase }}</label>
+          <select name="method" formControlName="method" class="form-control" required matTooltip="Method">
+            <option value="" disabled selected>{{ 'Select Method' | titlecase }}</option>
+            <option value="cash">{{ 'cash' | titlecase }}</option>
+            <option value="card">{{ 'card' | titlecase }}</option>
+            <option value="bank_transfer">{{ 'bank transfer' | titlecase }}</option>
+            <option value="upi">{{ 'upi' | titlecase }}</option>
+            <option value="check">{{ 'check' | titlecase }}</option>
+          </select>
+          @if (form?.get('method').touched && form?.get('method').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('method').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('method').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        @if (form?.get('method').value === 'card' || form?.get('method').value === 'bank_transfer' ||
+        form?.get('method').value === 'upi' || form?.get('method').value === 'check') {
+        <!-- Reference Number -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'referenceNumber' | titlecase }}</label>
+          <input type="text" name="referenceNumber" formControlName="referenceNumber" class="form-control"
+            placeholder="{{ 'Reference Number' | titlecase }}" required matTooltip="Reference Number" />
+          @if (form?.get('referenceNumber').touched && form?.get('referenceNumber').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('referenceNumber').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('referenceNumber').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+        }
+
+        <!-- Description -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'description' | titlecase }}</label>
+          <textarea name="description" formControlName="description" class="form-control"
+            placeholder="{{ 'Description' | titlecase }}" matTooltip="Description"></textarea>
+          @if (form?.get('description').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('description').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max200' | titlecase }}</div>
+          }
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer bg-white text-end">
+      <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeForm()">
+        {{ 'cancel' | titlecase }}
+      </button>
+      <button type="button" class="btn btn-success" (click)="save()" [disabled]="!form.touched">
+        {{ 'save' | titlecase }}
+      </button>
+    </div>
+  </form>
+  }
+</div>

@@ -1,0 +1,68 @@
+<div class="card">
+  <div class="card-header align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Latest Request For Quote</h4>
+    <div class="flex-shrink-0">
+      <a routerLink="/purchases/request-for-quote/list" class="text-decoration-underline fs-13">View All</a>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive table-card">
+      <table class="table table-borderless align-middle mb-0">
+        <thead class="table-light text-muted">
+          <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Vendor</th>
+            <th scope="col">Product</th>
+            <th scope="col">Status</th>
+            <th scope="col">Recent Updated</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(dashboard.recentRequestForQuote.length > 0){
+          @for(quote of dashboard.recentRequestForQuote; track $index){
+          <tr>
+            <td>
+              <a routerLink="/purchases/request-for-quote/edit/{{quote.id}}"
+                class="fw-medium link-primary">{{quote.code | uppercase}}</a>
+            </td>
+            <td class="fw-medium">{{ quote.vendorName | titlecase }}</td>
+            <td>{{ quote.itemsCount }}</td>
+            <td>
+              <span class="badge border border-secondary text-secondary" [ngClass]="{
+                'border-success text-success': quote.state === 'ordered',
+                'border-info text-info':  quote.state === 'pending',
+                'border-primary text-primary': quote.state === 'approved',
+                'border-secondary text-secondary': quote.state === 'delivered',
+                'border-warning text-warning': (quote.state === 'dispatched' || quote.state === 'quoted'),
+                'border-danger text-danger': quote.state === 'rejected' }">
+                {{ quote.state || 'Pending' | titlecase }}
+              </span>
+            </td>
+            <td class="text-muted">{{ quote.updated_at | date:'short' }}</td>
+            <td>
+              <a routerLink="/purchases/request-for-quote/edit/{{quote.id}}" class="text-muted">
+                <i class="ri-eye-line fs-16"></i>
+              </a>
+            </td>
+          </tr>
+          }
+          } @else {
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              <div class="text-center px-4 py-2">
+                <div class="grid border border-dashed border-2 p-3 rounded-2">
+                  <i class="ri-information-line fs-24 text-muted"></i>
+                  <h6 class="text-muted text-bold">No Records !!!</h6>
+                  <span class="text-muted">No Recent Request For Quotes found...</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

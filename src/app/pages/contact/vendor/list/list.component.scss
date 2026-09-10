@@ -1,0 +1,6 @@
+.maxHeight {
+	min-height: calc(100vh - 280px);
+	max-height: calc(100vh - 280px);
+	overflow-y: auto;
+	overflow-x: hidden;
+}

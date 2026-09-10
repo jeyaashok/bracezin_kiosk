@@ -1,0 +1,50 @@
+<div class="card card-height-100">
+  <div class="card-header border-0 align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Sales Overview</h4>
+  </div>
+
+  <div class="card-header p-0 border-0 bg-light-subtle">
+    <div class="row g-0 text-center">
+      <div class="col-4">
+        <div class="p-3 border border-dashed border-start-0">
+          <p class="text-muted mb-1 fs-12">Current Total</p>
+          <h5 class="mb-0">
+            {{ dashboard?.salesData?.summary?.total_text || 'N/A' }}
+            <ng-container
+              *ngIf="dashboard?.salesData?.summary?.state === 'up' || dashboard?.salesData?.summary?.state === 'down'">
+              <span class="badge bg-success-subtle text-success fs-11">
+                <i *ngIf="dashboard?.salesData?.summary?.state === 'up'" class="ri-arrow-up-line"></i>
+                <i *ngIf="dashboard?.salesData?.summary?.state === 'down'" class="ri-arrow-down-line"></i>
+                {{ dashboard?.salesData?.summary?.ratio || 'N/A' }}%
+              </span>
+            </ng-container>
+          </h5>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="p-3 border border-dashed border-start-0">
+          <p class="text-muted mb-1 fs-12">Previous Total</p>
+          <h5 class="mb-0">
+            {{ dashboard?.salesData?.summary?.last_total_text || 'N/A' }}
+          </h5>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="p-3 border border-dashed border-start-0 border-end-0">
+          <p class="text-muted mb-1 fs-12">Avg. Sales</p>
+          <h5 class="mb-0">{{ dashboard?.salesData?.summary?.average || 'N/A' }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body p-0 pb-2">
+    <div class="w-100">
+      <apx-chart dir="ltr" class="apex-charts" [chart]="salesChart.chart" [series]="salesChart.series"
+        [stroke]="salesChart.stroke" [colors]="salesChart.colors" [fill]="salesChart.fill"
+        [dataLabels]="salesChart.dataLabels" [xaxis]="salesChart.xaxis" [markers]="salesChart.markers"
+        [yaxis]="salesChart.yaxis" [tooltip]="salesChart.tooltip" [grid]="salesChart.grid">
+      </apx-chart>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="card form-dialog">
+  <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="mb-0 text-white">{{ 'Choose Product' | uppercase }}</h5>
+    </div>
+    <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn" aria-label="Close"
+      (click)="closeView()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <lib-search search="true" (onSearch)="productService.onSearch($event)"></lib-search>
+
+  <div class="card-body bg-gray-100">
+    <div data-simplebar>
+      @if(items && items.length > 0) {
+      <ul class="list-group p-1">
+        <li
+          class="list-group-item-action p-2 mb-2 border border-light-subtle bg-white rounded cursor-pointer rounded shadow-md hover:bg-gray-200"
+          (click)="chooseItem(item)" *ngFor="let item of items">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0 me-2">
+                  <div
+                    class="avatar-sm bg-light p-0 d-flex align-items-center justify-content-center rounded-circle overflow-hidden border border-light-subtle">
+                    <ngx-avatars [name]="item.name" [src]="item.image" size="40" initialsSize="2" textSizeRatio="3"
+                      [round]="true"></ngx-avatars>
+                  </div>
+                </div>
+                <div class="flex-shrink-0">
+                  <h6 class="fs-14 mb-0 fw-bold">{{ item.name | titlecase }}</h6>
+                  <small class="text-muted">{{ item.description | slice:0:50 }}...</small>
+                  <div class="d-flex align-items-center mt-1 mb-2 gap-1">
+                    <span class="badge bg-orange-100 text-dark" aria-label="Code"
+                      *ngIf="item && item.code">{{ item.code | uppercase }}</span>
+                    <span class="badge bg-orange-200 text-dark" aria-label="Art Code"
+                      *ngIf="item && item.art_code">{{ item.art_code | uppercase }}</span>
+                    <span class="badge bg-orange-300 text-dark" aria-label="Category"
+                      *ngIf="item && item.category && item.category.name">{{ item.category?.name | titlecase }}</span>
+                    <span class="badge bg-orange-400 text-white" aria-label="Pieces"
+                      *ngIf="item && item.pcs">{{ item.pcs | number }}</span>
+                    <span class="badge bg-orange-500 text-white" aria-label="Total Weight"
+                      *ngIf="item && item.total_weight">{{ item.total_weight | number:'1.3-3' }} {{ item.uom }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0">
+              <span class="text-danger">{{ item.price | currency:'USD':'symbol' }}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+      } @else {
+      <lib-norecord title="No Products Found"
+        subTitle="We couldn't find any products. Please add new products to see them here."></lib-norecord>
+      }
+    </div>
+  </div>
+
+  <div class="card-footer bg-white text-end">
+    <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeView()">
+      {{ 'close' | titlecase }}
+    </button>
+  </div>
+</div>

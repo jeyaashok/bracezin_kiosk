@@ -1,0 +1,153 @@
+<app-breadcrumbs title="Agent" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<mat-drawer-container>
+
+  <mat-drawer #sideBar [autoFocus]="false" [mode]="'over'" [position]="'end'" class="side-drawer">
+    @if(sideView === 'form') {
+    <app-agent-form [agent]="agent" (onClose)="sideBar.close()"></app-agent-form>
+    }
+  </mat-drawer>
+
+  <mat-drawer-content>
+
+    <div class="items-layout">
+      <div class="gap-2 mb-4" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="25">
+          <div class="search-wrapper">
+            <lib-search search="true" (onSearch)="agentService.onSearch($event)"></lib-search>
+          </div>
+        </div>
+        <div fxFlex="25" class="flex justify-content-end">
+          <button (click)="addForm()" class="btn btn-xs btn-primary rounded-full"
+            *ngIf="userService.permissionMatch(['add agent'])">
+            <i class="ri-add-line align-bottom me-1"></i>
+            Add Agent
+          </button>
+        </div>
+      </div>
+
+      <div class="table-card gridjs-border-none items-table-shell">
+        @if(agents && agents.length > 0){
+        <div class="bg-light">
+          <div class="table-responsive table-height">
+            <mat-table class="align-middle custom-datatable listTable" [dataSource]="dataSource" matSort>
+
+              <!-- Code Column -->
+              <ng-container matColumnDef="code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  <div class="grid">
+                    <p class="fs-6 fw-bold text-success"><strong>{{item?.detail?.code | uppercase}}</strong></p>
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Agent Column -->
+              <ng-container matColumnDef="agent">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Agent</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  @if(item && item.id) {
+                  <div class="d-flex flex-row align-items-center justify-content-start gap-1">
+                    <div
+                      class="avatar-sm min-w-[3rem] bg-light p-0 d-flex align-items-center justify-content-center rounded-circle overflow-hidden border border-light-subtle">
+                      <ngx-avatars [name]="item.name" [src]="item.imageUrl" size="70" initialsSize="2" textSizeRatio="5"
+                        [round]="true"></ngx-avatars>
+                    </div>
+                    <div class="grid">
+                      <p class="fs-6"><strong>{{item.name | titlecase}}</strong></p>
+                      <small *ngIf="item && item.fullAddress" class="text-muted">
+                        {{ item.fullAddress }}
+                      </small>
+                    </div>
+                  </div>
+                  } @else {
+                  <p class="fs-6 text-muted">-Nil-</p>
+                  }
+                </mat-cell>
+              </ng-container>
+
+              <!-- Contact Column -->
+              <ng-container matColumnDef="contact">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Contact</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  @if(item && item.id) {
+                  <div class="grid">
+                    <p class="fs-6" *ngIf="item.mobile"><strong>{{item.mobile }}</strong></p>
+                    <small *ngIf="item && item.email" class="text-muted">
+                      {{ item.email | lowercase }}
+                    </small>
+                  </div>
+                  } @else {
+                  <p class="fs-6 text-muted">-Nil-</p>
+                  }
+                </mat-cell>
+              </ng-container>
+
+              <!-- Commission Ratio Column -->
+              <ng-container matColumnDef="commission_ratio">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Commission Ratio</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  <div class="grid text-end">
+                    <span class="badge border border-danger text-danger">
+                      {{ item?.commission_ratio || 0 | number:'1.2-2' }}%
+                    </span>
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Outstanding Column -->
+              <ng-container matColumnDef="outstanding">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Outstanding</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  <div class="grid text-end">
+                    <span class="badge border border-secondary text-secondary">
+                      {{ item?.walletBalance || 0 | currency :'USD': 'symbol':'1.3-3' }}
+                    </span>
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                  <button type="button" class="action-btn btn-info" (click)="viewItem(item)" matTooltip="View"
+                    aria-label="View">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                  <button type="button" class="action-btn btn-warning" (click)="addForm(item)" matTooltip="Update"
+                    aria-label="Update" *ngIf="userService.permissionMatch(['manage agent'])">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button type="button" class="action-btn btn-danger" (click)="delete(item)" matTooltip="Delete"
+                    aria-label="Delete" *ngIf="userService.permissionMatch(['delete agent'])">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"
+                class="bg-light text-muted"></mat-header-row>
+              <mat-row *matRowDef="let item; columns: displayedColumns;" class="rowItem"
+                [ngClass]="{ 'highlight': item.deleted_at, 'activeRow': item.id === agent?.id }"></mat-row>
+            </mat-table>
+          </div>
+          <div class="px-3 py-2 w-full bg-light">
+            <mat-paginator #paginator [length]="dataLength" [pageSize]="param.paginate"
+              [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons (page)="agentService.pageEvent($event)"
+              aria-label="Agent list pagination">
+            </mat-paginator>
+          </div>
+        </div>
+        } @else {
+        <div class="section-height">
+          <lib-norecord title="No Agent Found"
+            subTitle="We couldn't find any Agent. Please add new Agent to see them here."
+            [addButton]="{'title':'Add Agent', 'icon': 'add_circle', 'color': 'btn-success','tooltip':'Add Agent'}"
+            (addNew)="addForm()" [showAddButton]="userService.permissionMatch(['add agent'])"></lib-norecord>
+        </div>
+        }
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

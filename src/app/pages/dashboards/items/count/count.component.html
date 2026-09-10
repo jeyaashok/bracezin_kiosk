@@ -1,0 +1,43 @@
+@if(dashboard && dashboard.countWidget && dashboard.countWidget.length > 0){
+<div class="row">
+  @for(widget of dashboard.countWidget; track $widget){
+  <div class="col-xl-2 col-md-4 col-sm-6">
+    <div class="card card-animate">
+      <div class="card-body">
+        <div class="d-flex align-items-center mb-2">
+          <div class="avatar-xs flex-shrink-0 me-2">
+            <span class="avatar-title {{ widget.color }} text-white rounded-circle fs-16">
+              <i class="{{widget.icon}}"></i>
+            </span>
+          </div>
+          <p class="text-uppercase fw-medium text-muted text-truncate mb-0 fs-12">{{widget.title}}</p>
+        </div>
+        <h4 class="fs-22 fw-semibold ff-secondary mb-2">{{widget.value}}</h4>
+        @if(widget.state === 'up'){
+        <p class="mb-0 text-muted">
+          <span class="badge bg-success-subtle text-success mb-0">
+            <i class="ri-arrow-up-line align-middle"></i> {{widget.ratio}}%
+          </span>
+          Vs {{widget.text | titlecase}}
+        </p>
+        } @else if(widget.state === 'down'){
+        <p class="mb-0 text-muted">
+          <span class="badge bg-danger-subtle text-danger mb-0">
+            <i class="ri-arrow-down-line align-middle"></i> {{widget.ratio}}%
+          </span>
+          Vs {{widget.text | titlecase}}
+        </p>
+        } @else {
+        <p class="mb-0 text-muted">
+          <span class="badge bg-info-subtle text-info mb-0">
+            {{ widget.last_value }}
+          </span>
+          Vs {{widget.text | titlecase}}
+        </p>
+        }
+      </div>
+    </div>
+  </div>
+  }
+</div>
+}

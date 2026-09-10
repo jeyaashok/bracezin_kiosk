@@ -1,0 +1,9 @@
+.companiesList-card {
+  &:hover {
+    background-color: rgb(248 250 252 / 0.8);
+  }
+
+  &.activeCard {
+    background-color: rgb(220 240 252 / 0.8);
+  }
+}

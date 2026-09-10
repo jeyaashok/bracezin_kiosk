@@ -1,0 +1,61 @@
+<div class="card">
+  <div class="card-header align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Roles & Permissions</h4>
+    <div class="flex-shrink-0" *ngIf="user && user.walletBalance > 0">
+      <button type="button" class="btn btn-soft-success btn-sm" (click)="makePayment()" matTooltip="Make Payment"
+        aria-label="Make Payment">
+        <i class="ri-add-line align-bottom"></i> Make Payment
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-simplebar style="max-height: calc(100vh - 360px); width: 100%; overflow-x: hidden;">
+      <div class="mx-n3 px-3">
+        <div class="vstack gap-3">
+          @if(permissions && permissions.length > 0) {
+          <div class="row">
+            @for (module of groupedPermissions | keyvalue; track module.key) {
+            <div class="col-xxl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+              <div class="card border card-border-secondary">
+                <div class="card-header">
+                  <h6 class="card-title mb-0">{{ module.key | titlecase }}</h6>
+                </div>
+                <div class="card-body">
+                  @if(module.value && module.value.length > 0) {
+                  <div class="form-check form-switch form-switch-custom form-switch-secondary"
+                    *ngFor="let permission of module.value"
+                    [ngClass]="hasDirectPermission(permission) ? 'form-switch-secondary' : 'form-switch-warning'"
+                    [disabled]="hasUserRolePermission(permission)">
+                    <input class="form-check-input" type="checkbox" role="switch" id="{{ permission.id }}"
+                      [checked]="hasPermission(permission)" [disabled]="hasUserRolePermission(permission)"
+                      (change)="toggleSelection(permission, !hasPermission(permission))" />
+                    <label class="form-check-label" for="{{ permission.id }}">{{ permission.name | titlecase }}</label>
+                  </div>
+                  } @else {
+                  <div class="text-center px-4 py-2">
+                    <div class="grid border border-dashed border-2 p-3 rounded-2">
+                      <i class="ri-information-line fs-24 text-muted"></i>
+                      <h6 class="text-muted text-bold">No Records !!!</h6>
+                      <span class="text-muted">No Permissions found...</span>
+                    </div>
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+          } @else {
+          <div class="text-center px-4 py-2">
+            <div class="grid border border-dashed border-2 p-3 rounded-2">
+              <i class="ri-information-line fs-24 text-muted"></i>
+              <h6 class="text-muted text-bold">No Records !!!</h6>
+              <span class="text-muted">No Roles & Permissions found...</span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </ngx-simplebar>
+  </div>
+</div>

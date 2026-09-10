@@ -1,0 +1,70 @@
+<div class="card form-dialog">
+  <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="mb-0 text-white">{{ 'Choose Customer' | uppercase }}</h5>
+    </div>
+    <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn" aria-label="Close"
+      (click)="closeView()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="search-panel bg-light-subtle">
+    <lib-search search="true" (onSearch)="customerService.onSearch($event)"></lib-search>
+  </div>
+
+  <div class="card-body bg-gray-100">
+    <div data-simplebar>
+      @if(items && items.length > 0) {
+      <ul class="list-group p-1" infiniteScroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="100"
+        (scrolled)="customerService.onScroll()" [scrollWindow]="false">
+        @for(item of items; track item) {
+        <li
+          class="list-group-item-action p-2 mb-2 border border-light-subtle rounded cursor-pointer bg-white rounded shadow-md hover:bg-gray-200"
+          (click)="chooseItem(item)">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar-sm bg-light rounded p-1">
+                    <ngx-avatars [name]="item.name" [src]="item.image" size="40" initialsSize="2" textSizeRatio="3"
+                      [round]="true"></ngx-avatars>
+                  </div>
+                </div>
+                <div class="flex-shrink-0 ms-2 grid">
+                  <h6 class="fs-12 mb-0 fw-bold">{{ item.name | titlecase }}</h6>
+                  <small class="text-muted" *ngIf="item.email">
+                    <i class="ri-mail-line me-1"></i>
+                    {{ item.email | lowercase }}
+                  </small>
+                  <small class="text-muted" *ngIf="item.mobile">
+                    <i class="ri-phone-line me-1"></i>
+                    {{ item.mobile }}
+                  </small>
+                  <small class="text-muted text-wrap" *ngIf="item.fullAddress">
+                    <i class="ri-map-pin-line me-1"></i>
+                    {{ item.fullAddress }}
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0">
+              <span class="badge bg-yellow-200 text-gray-600 fs-12 fw-bold"
+                aria-label="Outstanding Amount">{{ item?.walletBalance || 0 | currency:'USD':'symbol':'1.3-3' }}</span>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <lib-norecord title="No Customers Found"
+        subTitle="We couldn't find any customers. Please add new customers to see them here."></lib-norecord>
+      }
+    </div>
+  </div>
+
+  <div class="card-footer bg-light-subtle text-end">
+    <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeView()">
+      {{ 'close' | titlecase }}
+    </button>
+  </div>
+</div>

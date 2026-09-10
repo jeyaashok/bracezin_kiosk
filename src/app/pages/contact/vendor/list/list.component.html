@@ -1,0 +1,55 @@
+<app-breadcrumbs title="Vendor" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<mat-drawer-container>
+  <mat-drawer #sideBar [autoFocus]="false" [mode]="'over'" [position]="'end'" class="side-drawer">
+    @if(sideView === 'form') {
+    <app-vendor-form [vendor]="vendor" (onClose)="sideBar.close()"></app-vendor-form>
+    }
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="items-layout">
+      <div class="gap-2 mb-4" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="25">
+          <div class="search-wrapper">
+            <lib-search search="true" (onSearch)="vendorService.onSearch($event)"></lib-search>
+          </div>
+        </div>
+        <div fxFlex="25" class="flex justify-content-end">
+          <button (click)="addForm()" class="btn btn-xs btn-primary rounded-full"
+            *ngIf="userService.permissionMatch(['add vendor'])">
+            <i class="ri-add-line align-bottom me-1"></i>
+            Add Vendor
+          </button>
+        </div>
+      </div>
+      <div class="team-list grid-view-filter">
+        @if(vendors && vendors.length > 0) {
+        <div class="row maxHeight" infiniteScroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="100"
+          (scrolled)="vendorService.onScroll()" [scrollWindow]="false">
+          @for(vendor of allVendors; track vendor) {
+          <div class="col">
+            <share-user-card-two [user]="vendor" (onView)="viewItem($event)" (onEdit)="addForm($event)"
+              (onDelete)="delete($event)"></share-user-card-two>
+          </div>
+          }
+        </div>
+        <div class="px-3 py-2 w-full bg-light">
+          <div class="flex items-center justify-between gap-2 w-full bg-white p-2 rounded">
+            <div class="text-muted fs-6">
+              <strong>{{ allVendors.length || 0 }} </strong> off
+              {{dataLength}} {{dataLength > 1 ? 'Vendors' : 'Vendor'}} loaded...
+            </div>
+            <div class="text-muted fs-6">Scroll to get more Vendors...</div>
+          </div>
+        </div>
+        } @else {
+        <div class="section-height">
+          <lib-norecord title="No Vendor Found"
+            subTitle="We couldn't find any Vendor. Please add new Vendor to see them here."
+            [addButton]="{'title':'Add Vendor', 'icon': 'add_circle', 'color': 'btn-success','tooltip':'Add Vendor'}"
+            (addNew)="addForm()" [showAddButton]="userService.permissionMatch(['add vendor'])"></lib-norecord>
+        </div>
+        }
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

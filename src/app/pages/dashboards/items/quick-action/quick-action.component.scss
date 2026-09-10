@@ -1,0 +1,13 @@
+.quick-action-card-link {
+  height: stretch;
+  margin-bottom: 4px;
+
+  .quick-action-card {
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--vz-light);
+      border-color: var(--vz-primary) !important;
+    }
+  }
+}

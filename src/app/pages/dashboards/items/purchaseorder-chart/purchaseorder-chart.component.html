@@ -1,0 +1,25 @@
+<div class="card card-height-100">
+  <div class="card-header border-0 align-items-center d-flex">
+    <h4 class="card-title mb-0 flex-grow-1">Purchase Orders</h4>
+    <!-- <div class="d-flex gap-1">
+      @for(range of ['Day','Week','Month','Quarter','Year']; track $index){
+      <button type="button" class="btn btn-sm shadow-none"
+        [ngClass]="salesOverviewRange === range ? 'btn-primary' : 'btn-soft-secondary'"
+        (click)="setSalesOverviewRange(range)">
+        {{range}}
+      </button>
+      }
+    </div> -->
+  </div>
+
+  <div class="card-body p-0 pb-2">
+    <div class="w-100">
+      <apx-chart dir="ltr" class="apex-charts" [chart]="purchaseorderChart.chart" [series]="purchaseorderChart.series"
+        [stroke]="purchaseorderChart.stroke" [colors]="purchaseorderChart.colors" [fill]="purchaseorderChart.fill"
+        [dataLabels]="purchaseorderChart.dataLabels" [xaxis]="purchaseorderChart.xaxis"
+        [markers]="purchaseorderChart.markers" [yaxis]="purchaseorderChart.yaxis" [tooltip]="purchaseorderChart.tooltip"
+        [grid]="purchaseorderChart.grid">
+      </apx-chart>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<app-breadcrumbs title="System Settings" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<div class="settings-wrapper">
+  @if(settings && settings.length > 0) {
+  @for (order of orderSetting; track order) {
+  @for (settingCategory of groupedSettings | keyvalue; track settingCategory.key) {
+  @if(matchOrder(settingCategory.key, order)) {
+  <div class="settings-card">
+    <h2 class="section-title">{{ settingCategory.key | titlecase }}</h2>
+
+    <div class="form-grid form-grid--3">
+      @if(settingCategory.value && settingCategory.value.length > 0) {
+      @for (setting of settingCategory.value; track setting) {
+      <div class="field-group">
+        <label class="field-label required">{{ setting.field | titlecase }}</label>
+        @switch (setting.field_type_name) {
+        @case ('text') {
+        <input type="text" class="field-input" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (input)="onFieldDebouncedCommit(setting)" (change)="onFieldCommit(setting)" />
+        }
+        @case ('number') {
+        <input type="number" class="field-input" [class.is-invalid]="hasError(setting)"
+          [disabled]="!isEditable(setting)" [(ngModel)]="setting.value"
+          (ngModelChange)="onFieldValueChange(setting, $event)" (input)="onFieldDebouncedCommit(setting)"
+          (change)="onFieldCommit(setting)" />
+        }
+        @case ('email') {
+        <input type="email" class="field-input" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (input)="onFieldDebouncedCommit(setting)" (change)="onFieldCommit(setting)" />
+        }
+        @case ('select') {
+        <select class="field-select" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (change)="onFieldCommit(setting)">
+          <option *ngFor="let option of getOptions(setting)" [value]="option">{{ option }}</option>
+        </select>
+        }
+        @case ('boolean') {
+        <select class="field-select" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (change)="onFieldCommit(setting)">
+          <option *ngFor="let option of ['true', 'false']" [value]="option">{{ option }}</option>
+        </select>
+        }
+        @case('link') {
+        <input type="url" class="field-input" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (input)="onFieldDebouncedCommit(setting)" (change)="onFieldCommit(setting)" />
+        }
+        @case ('imageurl') {
+        <img [src]="setting.value" alt="{{ setting.field | titlecase }}" class="setting-image"
+          (onerror)="this.src='assets/images/users/user-dummy-img.jpg'" />
+        <input type="url" class="field-input" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (input)="onFieldDebouncedCommit(setting)" (change)="onFieldCommit(setting)" />
+        }
+        @case ('videourl') {
+        <video width="320" height="240" controls>
+          <source [src]="setting.value" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <input type="url" class="field-input" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (input)="onFieldDebouncedCommit(setting)" (change)="onFieldCommit(setting)" />
+        }
+        @case ('file') {
+        <input type="file" class="field-input" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          (change)="onFileChange($event, setting)" />
+        }
+        @default {
+        <input type="text" class="field-input" [class.is-invalid]="hasError(setting)" [disabled]="!isEditable(setting)"
+          [(ngModel)]="setting.value" (ngModelChange)="onFieldValueChange(setting, $event)"
+          (input)="onFieldDebouncedCommit(setting)" (change)="onFieldCommit(setting)" />
+        }
+        }
+        @if (hasError(setting)) {
+        <span class="field-error">{{ getError(setting) }}</span>
+        }
+      </div>
+      }
+      }
+    </div>
+  </div>
+  }
+  }
+  }
+  }
+
+</div>

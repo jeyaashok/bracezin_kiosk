@@ -1,0 +1,15 @@
+<div class="mt-4 text-center" *ngIf="enableSocialLogin">
+  <div class="signin-other-title">
+    <h5 class="fs-13 mb-4 title">Sign In with</h5>
+  </div>
+
+  <div class="d-flex gap-2 justify-content-center">
+    <button type="button" class="btn btn-primary btn-icon waves-effect waves-light"
+      (click)="signInWithPopup('facebook')" aria-label="Sign in with Facebook"><i
+        class="ri-facebook-fill fs-16"></i></button>
+    <button type="button" class="btn btn-danger btn-icon waves-effect waves-light" (click)="signInWithPopup('google')"
+      aria-label="Sign in with Google"><i class="ri-google-fill fs-16"></i></button>
+    <button type="button" class="btn btn-info btn-icon waves-effect waves-light" (click)="signInWithPopup('linkedin')"
+      aria-label="Sign in with LinkedIn"><i class="ri-linkedin-fill fs-16"></i></button>
+  </div>
+</div>

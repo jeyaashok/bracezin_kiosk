@@ -1,0 +1,324 @@
+<div class="dashboard-vh-wrapper">
+
+    <!-- Page Header -->
+    <div class="row mb-3 pb-1 dash-row-header">
+        <div class="col-12">
+            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">{{customer.name}} <span class="text-muted fs-13">({{customer.id}})</span></h4>
+                    <p class="text-muted mb-0">
+                        <i class="ri-user-line align-middle me-1"></i>{{customer.contact_person}}
+                        <span class="mx-2">|</span>
+                        <i class="ri-mail-line align-middle me-1"></i>{{customer.email}}
+                        <span class="mx-2">|</span>
+                        <i class="ri-phone-line align-middle me-1"></i>{{customer.phone}}
+                    </p>
+                </div>
+                <div class="mt-3 mt-lg-0">
+                    <span class="badge bg-light text-muted fs-12">Customer since {{customer.customer_since}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+
+    <!-- Stat Cards -->
+    <div class="row dash-row-stats mb-3">
+        @for(stat of statData; track $index){
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-animate mb-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="avatar-xs flex-shrink-0 me-2">
+                            <span class="avatar-title bg-{{stat.icon_bg_color}}-subtle text-{{stat.icon_bg_color}} rounded-circle fs-16">
+                                <i class="{{stat.icon}}"></i>
+                            </span>
+                        </div>
+                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0 fs-12">{{stat.title}}</p>
+                    </div>
+                    <h4 class="fs-22 fw-semibold ff-secondary mb-2">{{stat.value}}</h4>
+                    @if(stat.profit === 'up'){
+                    <p class="mb-0 text-muted">
+                        <span class="badge bg-success-subtle text-success mb-0">
+                            <i class="ri-arrow-up-line align-middle"></i> {{stat.persantage}}%
+                        </span>
+                        {{stat.subtext}}
+                    </p>
+                    } @else if(stat.profit === 'attention'){
+                    <p class="mb-0 text-danger fw-medium">{{stat.subtext}}</p>
+                    } @else {
+                    <p class="mb-0 text-muted">{{stat.subtext}}</p>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    <!--end row-->
+
+    <!-- Addresses + Recent Activity -->
+    <div class="row dash-row-flex mb-3">
+        <div class="col-xl-5">
+            <div class="card card-height-100 mb-0">
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">Addresses</h4>
+                    <div class="flex-shrink-0">
+                        <button type="button" class="btn btn-sm btn-soft-primary shadow-none" (click)="openAddAddress(addAddressOffcanvas)">
+                            <i class="ri-add-line align-middle me-1"></i> Add Address
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Main Address -->
+                    <div class="border border-dashed rounded p-3 mb-3 flex-shrink-0">
+                        <div class="d-flex align-items-start">
+                            <div class="avatar-xs flex-shrink-0 me-2">
+                                <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-16">
+                                    <i class="ri-map-pin-2-fill"></i>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1 fs-13">{{mainAddress.label}}
+                                    <span class="badge bg-primary-subtle text-primary align-middle ms-1">Main</span>
+                                </h6>
+                                <p class="text-muted mb-1 fs-13">
+                                    {{mainAddress.line1}}@if(mainAddress.line2){, {{mainAddress.line2}}}, {{mainAddress.city}}, {{mainAddress.state}} - {{mainAddress.pincode}}
+                                </p>
+                                <small class="text-muted">{{mainAddress.phone}}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Addresses -->
+                    <p class="text-muted text-uppercase fs-11 fw-medium mb-2 flex-shrink-0">Delivery Addresses</p>
+                    <ngx-simplebar>
+                        @for(address of deliveryAddresses; track $index){
+                        <div class="border rounded p-3 mb-2">
+                            <div class="d-flex align-items-start">
+                                <div class="avatar-xs flex-shrink-0 me-2">
+                                    <span class="avatar-title bg-secondary-subtle text-secondary rounded-circle fs-16">
+                                        <i class="ri-map-pin-line"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 fs-13">{{address.label}}</h6>
+                                    <p class="text-muted mb-1 fs-13">
+                                        {{address.line1}}@if(address.line2){, {{address.line2}}}, {{address.city}}, {{address.state}} - {{address.pincode}}
+                                    </p>
+                                    <small class="text-muted">{{address.phone}}</small>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <button type="button" class="btn btn-sm btn-soft-secondary shadow-none fs-12" (click)="setAsMainAddress(address)">
+                                        Set as Main
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        } @empty {
+                        <p class="text-muted fs-13 mb-0">No delivery addresses added yet.</p>
+                        }
+                    </ngx-simplebar>
+                </div>
+            </div>
+        </div>
+        <!--end col-->
+
+        <div class="col-xl-7">
+            <div class="card card-height-100 mb-0">
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">Recent Activity</h4>
+                </div>
+                <div class="card-body">
+                    <ngx-simplebar>
+                        <div class="acitivity-timeline acitivity-main">
+                            @for(activity of recentActivities; track $index){
+                            <div class="acitivity-item py-2 d-flex">
+                                <div class="flex-shrink-0 avatar-xs acitivity-avatar">
+                                    <div class="avatar-title bg-{{activity.icon_bg_color}}-subtle text-{{activity.icon_bg_color}} rounded-circle shadow">
+                                        <i class="{{activity.icon}}"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-1 lh-base fs-13">{{activity.title}}
+                                        <span class="badge bg-{{activity.badge_color}}-subtle text-{{activity.badge_color}} align-middle ms-1">{{activity.badge}}</span>
+                                    </h6>
+                                    <p class="text-muted mb-1 fs-13">{{activity.subtitle}}</p>
+                                    <small class="mb-0 text-muted">{{activity.time}}</small>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </ngx-simplebar>
+                </div>
+            </div>
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+
+    <!-- Order History + Outstanding Invoices -->
+    <div class="row dash-row-flex mb-3">
+        <div class="col-xl-7">
+            <div class="card card-height-100 mb-0">
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">Order History</h4>
+                    <div class="flex-shrink-0">
+                        <a href="javascript:void(0);" class="text-decoration-underline fs-13">View All</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-card">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                    <th scope="col">Order ID</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for(order of orderHistory; track $index){
+                                <tr>
+                                    <td><a routerLink="/sale-order/{{order.id}}" class="fw-medium link-primary">{{order.id}}</a></td>
+                                    <td class="text-muted">{{order.date}}</td>
+                                    <td>{{order.product}}</td>
+                                    <td>{{order.amount}}</td>
+                                    <td><span class="badge bg-{{order.status_color}}-subtle text-{{order.status_color}}">{{order.status}}</span></td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end col-->
+
+        <div class="col-xl-5">
+            <div class="card card-height-100 mb-0">
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">Outstanding Invoices</h4>
+                    <div class="flex-shrink-0">
+                        <a href="javascript:void(0);" class="text-decoration-underline fs-13">View All</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-card">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                    <th scope="col">Invoice</th>
+                                    <th scope="col">Order</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Due</th>
+                                    <th scope="col">Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for(invoice of outstandingInvoices; track $index){
+                                <tr>
+                                    <td><a href="javascript:void(0);" class="fw-medium link-primary">{{invoice.invoice_id}}</a></td>
+                                    <td><a routerLink="/sale-order/{{invoice.order_id}}" class="link-primary">{{invoice.order_id}}</a></td>
+                                    <td>{{invoice.amount}}</td>
+                                    <td class="text-danger fs-12">{{invoice.days_overdue}}d overdue</td>
+                                    <td><span class="badge bg-{{invoice.priority_color}}-subtle text-{{invoice.priority_color}}">{{invoice.priority}}</span></td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+
+    <!-- Products Purchased -->
+    <div class="row dash-row-flex dash-row-products">
+        <div class="col-xl-12">
+            <div class="card card-height-100 mb-0">
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">Products Purchased</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-card">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Qty Purchased</th>
+                                    <th scope="col">Last Ordered</th>
+                                    <th scope="col">Total Spent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for(product of productsPurchased; track $index){
+                                <tr>
+                                    <td class="fw-medium">{{product.product}}</td>
+                                    <td>{{product.category}}</td>
+                                    <td>{{product.qty}}</td>
+                                    <td class="text-muted">{{product.last_ordered}}</td>
+                                    <td>{{product.total_spent}}</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+
+</div>
+
+<!-- Add Address Offcanvas -->
+<ng-template #addAddressOffcanvas let-offcanvas>
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Add Delivery Address</h5>
+        <button type="button" class="btn-close" (click)="offcanvas.close()"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Label</label>
+                <input type="text" class="form-control" [(ngModel)]="addressForm.label" name="label" placeholder="e.g. Warehouse - Vatva">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address Line 1</label>
+                <input type="text" class="form-control" [(ngModel)]="addressForm.line1" name="line1">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address Line 2</label>
+                <input type="text" class="form-control" [(ngModel)]="addressForm.line2" name="line2">
+            </div>
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="form-label">City</label>
+                    <input type="text" class="form-control" [(ngModel)]="addressForm.city" name="city">
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label">State</label>
+                    <input type="text" class="form-control" [(ngModel)]="addressForm.state" name="state">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="form-label">Pincode</label>
+                    <input type="text" class="form-control" [(ngModel)]="addressForm.pincode" name="pincode">
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control" [(ngModel)]="addressForm.phone" name="phone">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary w-100" (click)="saveAddress(offcanvas)">
+                <i class="ri-save-line align-middle me-1"></i> Save Address
+            </button>
+        </form>
+    </div>
+</ng-template>

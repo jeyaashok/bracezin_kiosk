@@ -1,0 +1,310 @@
+<div class="card form-dialog">
+  <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="mb-0 text-white">{{ 'Choose Delivery Terms' | uppercase }}</h5>
+    </div>
+    <div class="d-flex align-items-center justify-content-end gap-2">
+      <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn header-btn1"
+        aria-label="Add Delivery Term" (click)="addItem()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn"
+        aria-label="Close" (click)="closeView()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="search-panel bg-light-subtle">
+    <lib-search search="true" (onSearch)="deliveryTermService.onSearch($event)"></lib-search>
+  </div>
+
+  @if(viewMode === 'list') {
+  <div class="card-body bg-gray-100">
+    <div data-simplebar>
+      @if(items && items.length > 0) {
+      <ul class="list-group p-1" infiniteScroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="100"
+        (scrolled)="deliveryTermService.onScroll()" [scrollWindow]="false">
+        @for(item of items; track item) {
+        <li class="list-group-item-action mb-2 shadow-md" *ngIf="item && item.id">
+          <div class="card border card-border-light mb-0">
+            <div class="card-header" fxLayout="row" fxLayoutAlign="space-between center">
+              <div fxFlex>
+                <h6 class="card-title mb-0 fs-12 fw-bold">{{ item?.code | uppercase }}</h6>
+              </div>
+              <div fxFlex="30" class="inline-flex justify-content-end">
+                <button type="button" class="action-btn btn-warning" (click)="editItem(item)" matTooltip="Update"
+                  aria-label="Update">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button type="button" class="action-btn btn-danger" (click)="delete(item)" matTooltip="Delete"
+                  aria-label="Delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="text-bold" *ngIf="item?.name">{{ item?.name | titlecase }}</p>
+              <p class="card-text" *ngIf="item?.description">{{ item?.description }}</p>
+              <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="my-2">
+                <div fxFlex="50" class="mb-2">
+                  <h4 class="mb-1 fw-bold">{{ item?.nation || 'N/A' | titlecase }}</h4>
+                  <p class="card-text text-muted fs-6">Nation</p>
+                </div>
+                <div fxFlex="50" class="mb-2">
+                  <h4 class="mb-1 fw-bold">{{ item?.city || 'N/A' | titlecase }}</h4>
+                  <p class="card-text text-muted fs-6">City</p>
+                </div>
+                <div fxFlex="50" class="mb-2">
+                  <h4 class="mb-1 fw-bold">{{ item?.state || 'N/A' | titlecase }}</h4>
+                  <p class="card-text text-muted fs-6">State</p>
+                </div>
+                <div fxFlex="50" class="mb-2">
+                  <h4 class="mb-1 fw-bold">{{ item?.country || 'N/A' | titlecase }}</h4>
+                  <p class="card-text text-muted fs-6">Country</p>
+                </div>
+              </div>
+              <div class="text-end">
+                <a href="javascript:void(0);" class="link-primary fw-medium" (click)="chooseItem(item)">Choose
+                  <i class="ri-arrow-right-line align-middle ml-2"></i></a>
+              </div>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <lib-norecord title="No Delivery Terms Found"
+        subTitle="We couldn't find any delivery terms. Please add new delivery terms to see them here."></lib-norecord>
+      }
+    </div>
+
+  </div>
+
+  <div class="card-footer bg-light-subtle text-end">
+    <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeView()">
+      {{ 'close' | titlecase }}
+    </button>
+  </div>
+
+  } @else if(viewMode === 'form') {
+  <form [formGroup]="form" class="card form-dialog">
+    <div class="card-body">
+      <div class="row g-2">
+
+        <!-- Code -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'code' | titlecase }}</label>
+          <input type="text" name="code" formControlName="code" class="form-control"
+            placeholder="{{ 'Code' | titlecase }}" required matTooltip="Code" maxlength="10" minlength="1" />
+          @if (form?.get('code').touched && form?.get('code').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('code').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('code').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max10' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Name -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'name' | titlecase }}</label>
+          <input type="text" name="name" formControlName="name" class="form-control"
+            placeholder="{{ 'Name' | titlecase }}" required matTooltip="Name" maxlength="50" minlength="3" />
+          @if (form?.get('name').touched && form?.get('name').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('name').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min3' | titlecase }}</div>
+          }
+          @if (form?.get('name').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Nation -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'nation' | titlecase }}</label>
+          <input type="text" name="nation" formControlName="nation" class="form-control"
+            placeholder="{{ 'Nation' | titlecase }}" required matTooltip="Nation" maxlength="100" minlength="1" />
+          @if (form?.get('nation').touched && form?.get('nation').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('nation').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('nation').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max100' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Country -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'country' | titlecase }}</label>
+          <input type="text" name="country" formControlName="country" class="form-control"
+            placeholder="{{ 'Country' | titlecase }}" matTooltip="Country" maxlength="50" minlength="1"
+            list="country-options" (input)="onCountryChange($any($event.target).value)" />
+          <datalist id="country-options">
+            @for (country of countries; track country) {
+            <option [value]="country.name"></option>
+            }
+          </datalist>
+          @if (form?.get('country').touched && form?.get('country').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('country').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('country').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- State -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'state' | titlecase }}</label>
+          <input type="text" name="state" formControlName="state" class="form-control"
+            placeholder="{{ 'State' | titlecase }}" matTooltip="State" maxlength="50" minlength="1" list="state-options"
+            (input)="onStateChange($any($event.target).value)" />
+          <datalist id="state-options">
+            @for (state of states; track state) {
+            <option [value]="state"></option>
+            }
+          </datalist>
+          @if (form?.get('state').touched && form?.get('state').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('state').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('state').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- City -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'city' | titlecase }}</label>
+          <input type="text" name="city" formControlName="city" class="form-control"
+            placeholder="{{ 'City' | titlecase }}" matTooltip="City" maxlength="50" minlength="1" list="city-options" />
+          <datalist id="city-options">
+            @for (city of cities; track city) {
+            <option [value]="city"></option>
+            }
+          </datalist>
+          @if (form?.get('city').touched && form?.get('city').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('city').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('city').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Description -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'description' | titlecase }}</label>
+          <textarea name="description" formControlName="description" class="form-control" rows="3"
+            placeholder="{{ 'Description' | titlecase }}" matTooltip="Description" maxlength="50"
+            minlength="1"></textarea>
+          @if (form?.get('description').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('description').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Types -->
+        <!-- <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'type' | titlecase }}</label>
+          <select name="type" formControlName="type" class="form-select" required matTooltip="Type">
+            <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+          </select>
+          @if (form?.get('type').touched && form?.get('type').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+        </div> -->
+
+        <!-- Estimated Min Days -->
+        <!-- <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'estimated_min_days' | titlecase }}</label>
+          <input type="number" name="estimated_min_days" formControlName="estimated_min_days" class="form-control"
+            placeholder="{{ 'Estimated Min Days' | titlecase }}" required matTooltip="Estimated Min Days" min="1" />
+          @if (form?.get('estimated_min_days').touched && form?.get('estimated_min_days').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('estimated_min_days').hasError('min')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('estimated_min_days').hasError('max')) {
+          <div class="invalid-feedback d-block">{{ 'error.max100' | titlecase }}</div>
+          }
+        </div> -->
+
+        <!-- Estimated Max Days -->
+        <!-- <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'estimated_max_days' | titlecase }}</label>
+          <input type="number" name="estimated_max_days" formControlName="estimated_max_days" class="form-control"
+            placeholder="{{ 'Estimated Max Days' | titlecase }}" required matTooltip="Estimated Max Days" min="1" />
+          @if (form?.get('estimated_max_days').touched && form?.get('estimated_max_days').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('estimated_max_days').hasError('min')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('estimated_max_days').hasError('max')) {
+          <div class="invalid-feedback d-block">{{ 'error.max100' | titlecase }}</div>
+          }
+        </div> -->
+
+        <!-- Estimated Cost -->
+        <!-- <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'estimated_cost' | titlecase }}</label>
+          <input type="number" name="estimated_cost" formControlName="estimated_cost" class="form-control"
+            placeholder="{{ 'Estimated Cost' | titlecase }}" required matTooltip="Estimated Cost" min="1" />
+          @if (form?.get('estimated_cost').touched && form?.get('estimated_cost').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('estimated_cost').hasError('min')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('estimated_cost').hasError('max')) {
+          <div class="invalid-feedback d-block">{{ 'error.max100' | titlecase }}</div>
+          }
+        </div> -->
+
+        <!-- Is Active -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'is_active' | titlecase }}</label>
+          <mat-slide-toggle formControlName="is_active" color="primary" aria-label="Is Active"></mat-slide-toggle>
+          <div *ngIf="form?.get('is_active').touched && form?.get('is_active').errors?.required"
+            class="invalid-feedback d-block">
+            {{ 'error.mandatoryInput' | titlecase }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer bg-white text-end">
+      <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeForm()">
+        {{ 'cancel' | titlecase }}
+      </button>
+      @if(item && item.id) {
+      <button type="button" class="btn btn-success" (click)="update(item)" [disabled]="!form.touched">
+        {{ 'update' | titlecase }}
+      </button>
+      } @else {
+      <button type="button" class="btn btn-success" (click)="save()" [disabled]="!form.touched">
+        {{ 'save' | titlecase }}
+      </button>
+      }
+    </div>
+  </form>
+  }
+
+</div>

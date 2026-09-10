@@ -1,0 +1,18 @@
+/*
+Template Name: Bracezin - Admin & Dashboard Template
+Author: Themesbrand
+Website: https://themesbrand.com/
+Contact: support@themesbrand.com
+File: Custom Css File
+*/
+
+.side-drawer {
+	position: fixed;
+	top: $header-height;
+	right: 0;
+	height: calc(100vh - $header-height);
+	min-height: calc(100vh - $header-height);
+	max-height: calc(100vh - $header-height);
+	overflow-y: auto;
+	z-index: 99999;
+}

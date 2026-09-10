@@ -1,0 +1,148 @@
+<!-- ========== App Menu ========== -->
+<div class="app-menu navbar-menu">
+  <!-- LOGO -->
+  <div class="navbar-brand-box">
+    <!-- Dark Logo-->
+    <a routerLink="/" class="logo logo-dark">
+      <span class="logo-sm">
+        <img src="assets/images/logo-sm.png" alt="" height="22">
+      </span>
+      <span class="logo-lg">
+        <img src="assets/images/logo-dark.png" alt="" height="17">
+      </span>
+    </a>
+    <!-- Light Logo-->
+    <a routerLink="/" class="logo logo-light">
+      <span class="logo-sm">
+        <img src="assets/images/logo-sm.png" alt="" height="22">
+      </span>
+      <span class="logo-lg">
+        <img src="assets/images/logo-light.png" alt="" height="17">
+      </span>
+    </a>
+    <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover"
+      (click)="toggleMobileMenu($event)">
+      <i class="ri-record-circle-line"></i>
+    </button>
+  </div>
+
+  <div id="scrollbar">
+    <div class="container-fluid">
+
+      <div id="two-column-menu">
+      </div>
+      <ngx-simplebar class="sidebar-menu-scroll" style="max-height: calc(100vh - 70px);">
+        <ul class="metismenu list-unstyled navbar-nav" id="navbar-nav">
+          @for(item of menuItems; track item.id){
+          @if(item.isTitle){
+          <li class="menu-title"><span data-key="t-menu">{{ item.title | translate }}</span></li>
+          }
+          @if(hasItems(item)){
+          @for(menu of item.children; track menu) {
+          @if (userService.permissionMatch(menu.permissions)) {
+          <li class="nav-item">
+            @if(hasItems(menu)){
+            <a href="javascript:void(0);" class="is-parent nav-link menu-link"
+              [ngClass]="{'has-arrow': !menu.badge, 'has-dropdown': menu.badge}" data-bs-toggle="collapse"
+              [attr.aria-expanded]="!menu.isCollapsed" (click)="toggleItem(menu, 'menu')">
+              <i class="{{ menu.icon }} icon nav-icon" class=""></i>
+              <span class=""> {{ menu.title | translate }}</span>
+              @if(menu.badge){<span class="badge badge-pill {{menu.badge.variant}}">{{menu.badge.text
+                | translate}}</span>}
+            </a>
+
+            <div class="check menu-dropdown" #collapse="ngbCollapse" [(ngbCollapse)]="menu.isCollapsed"
+              [ngClass]="{'visible': !menu.isCollapsed, 'collapse': menu.isCollapsed}">
+              <ul class="nav nav-sm flex-column" aria-expanded="false">
+                @for(subMenu of menu.children; track subMenu.id){
+                @if((!hasItems(subMenu) && userService.permissionMatch(subMenu.permissions)) || hasItems(subMenu)) {
+                <li class="nav-item">
+                  @if(hasItems(subMenu)){
+                  <a class="nav-link" href="javascript:void(0);" [attr.data-parent]="subMenu.parentId"
+                    data-bs-toggle="collapse" [attr.aria-expanded]="!subMenu.isCollapsed"
+                    (click)="toggleItem(subMenu, 'subMenu')">
+                    {{ subMenu.title | translate}}
+                    @if(subMenu.badge){<span class="badge badge-pill {{subMenu.badge.variant}}">{{subMenu.badge.text
+                      | translate}}</span>}
+                  </a>
+
+                  <div class="menu-dropdown sub-menu" #collapse="ngbCollapse" [(ngbCollapse)]="subMenu.isCollapsed"
+                    [ngClass]="{'visible': !subMenu.isCollapsed, 'collapse': subMenu.isCollapsed}">
+                    <ul class="nav nav-sm flex-column" aria-expanded="false">
+                      @for(subSubMenu of subMenu.children; track subSubMenu.id){
+                      @if((!hasItems(subSubMenu) && userService.permissionMatch(subSubMenu.permissions)) ||
+                      hasItems(subSubMenu)) {
+                      <li class="nav-item">
+                        @if(hasItems(subSubMenu)){
+                        <a class="nav-link" href="javascript:void(0);" [attr.data-parent]="subSubMenu.parentId"
+                          data-bs-toggle="collapse" aria-expanded="false" [attr.aria-expanded]="!subSubMenu.isCollapsed"
+                          (click)="toggleItem(subSubMenu, 'subSubMenu')">
+                          {{ subSubMenu.title | translate}}
+                          @if(subSubMenu.badge){<span class="badge badge-pill {{subSubMenu.badge.variant}}">{{subSubMenu.badge.text
+                            | translate}}</span>}
+                        </a>
+
+                        <div class="collapse menu-dropdown extra-sub-menu" #collapse="ngbCollapse"
+                          [(ngbCollapse)]="subSubMenu.isCollapsed">
+                          <ul class="nav nav-sm flex-column" aria-expanded="false">
+                            @for(subSubMenu1 of subSubMenu.children; track subSubMenu1.id){
+                            @if(userService.permissionMatch(subSubMenu1.permissions)){
+                            <li class="nav-item">
+                              <a [attr.data-parent]="subSubMenu1.parentId" [routerLink]="subSubMenu1.route"
+                                class="nav-link" (click)="updateActive($event)">
+                                {{ subSubMenu1.label | translate }}
+                              </a>
+                            </li>
+                            }
+                            }
+                          </ul>
+                        </div>
+                        }@else{
+                        <a [attr.data-parent]="subSubMenu.parentId" [routerLink]="subSubMenu.route" class="nav-link"
+                          (click)="updateActive($event)">
+                          {{ subSubMenu.title | translate }}
+                          @if(subSubMenu.badge){<span class="badge badge-pill {{subSubMenu.badge.variant}}">{{subSubMenu.badge.text
+                            | translate}}</span>}
+                        </a>
+                        }
+                      </li>
+                      }
+                      }
+                    </ul>
+                  </div>
+                  }@else{
+                  <a [routerLink]="subMenu.route" class="nav-link" [attr.data-parent]="subMenu.parentId"
+                    (click)="updateActive($event)">
+                    {{ subMenu.title | translate}}
+                    @if(subMenu.badge){<span class="badge badge-pill {{subMenu.badge.variant}}">{{subMenu.badge.text
+                      | translate}}</span>}
+                  </a>
+                  }
+                </li>
+                }
+                }
+              </ul>
+            </div>
+            } @else{
+            <a [routerLink]="menu.route" class="side-nav-link-ref nav-link menu-link" routerLinkActive="active">
+              @if(menu.icon){<i class="{{ menu.icon }} icon nav-icon" class=""></i>}
+              <span class="">{{ menu.title | translate }}</span>
+              @if(menu.badge){<span class="badge {{menu.badge.variant}} float-end">{{menu.badge.text |
+                translate}}</span>}
+            </a>
+            }
+          </li>
+          }
+          }
+          }
+          }
+        </ul>
+      </ngx-simplebar>
+    </div>
+    <!-- Sidebar -->
+  </div>
+  <div class="sidebar-background"></div>
+</div>
+<!-- Left Sidebar End -->
+<!-- Vertical Overlay-->
+<div class="vertical-overlay" (click)="SidebarHide()"></div>

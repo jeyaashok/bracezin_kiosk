@@ -1,0 +1,14 @@
+.addBtn {
+  position: relative;
+  left: -8px;
+  top: 0px;
+  border: 2px solid white;
+  border-radius: 50%;
+  line-height: 8px;
+  padding: 4px;
+  cursor: pointer;
+
+  .mat-icon {
+    margin-right: 0px;
+  }
+}

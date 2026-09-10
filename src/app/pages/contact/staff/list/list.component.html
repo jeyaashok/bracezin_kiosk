@@ -1,0 +1,58 @@
+<app-breadcrumbs title="Staff" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<mat-drawer-container>
+
+  <mat-drawer #sideBar [autoFocus]="false" [mode]="'over'" [position]="'end'" class="side-drawer">
+    @if(sideView === 'form') {
+    <app-staff-form [staff]="staff" (onClose)="sideBar.close()"></app-staff-form>
+    }
+  </mat-drawer>
+
+  <mat-drawer-content>
+
+    <div class="items-layout">
+      <div class="gap-2 mb-4" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="25">
+          <div class="search-wrapper">
+            <lib-search search="true" (onSearch)="staffService.onSearch($event)"></lib-search>
+          </div>
+        </div>
+        <div fxFlex="25" class="flex justify-content-end">
+          <button (click)="addForm()" class="btn btn-xs btn-primary rounded-full"
+            *ngIf="userService.permissionMatch(['add staff'])">
+            <i class="ri-add-line align-bottom me-1"></i>
+            Add Staff
+          </button>
+        </div>
+      </div>
+
+      <div class="table-card gridjs-border-none items-table-shell">
+        @if(staffs && staffs.length > 0){
+        <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px" class="bg-light">
+          <div fxFlex>
+            <div class="team-list grid-view-filter">
+              <div class="row maxHeight" infiniteScroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="100"
+                (scrolled)="staffService.onScroll()" [scrollWindow]="false">
+                @for(staff of allStaffs; track staff) {
+                <div class="col-xl-3 col-lg-6">
+                  <share-user-card-three [user]="staff" [isActive]="staff.id === this.staff?.id"
+                    (onView)="viewItem($event)" (onEdit)="addForm($event)" (onDelete)="delete($event)"
+                    (onChangePassword)="changePassword($event)"></share-user-card-three>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        } @else {
+        <div class="section-height">
+          <lib-norecord title="No Staff Found"
+            subTitle="We couldn't find any Staff. Please add new Staff to see them here."
+            [addButton]="{'title':'Add Staff', 'icon': 'add_circle', 'color': 'btn-success','tooltip':'Add Staff'}"
+            (addNew)="addForm()" [showAddButton]="userService.permissionMatch(['add staff'])"></lib-norecord>
+        </div>
+        }
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

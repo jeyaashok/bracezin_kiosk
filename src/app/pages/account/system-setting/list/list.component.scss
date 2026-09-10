@@ -1,0 +1,204 @@
+// ── Variables ─────────────────────────────────────────────────────────────────
+$border-color: #dee2e6;
+$input-bg: #fff;
+$input-focus: #0d6efd;
+$label-color: #6c757d;
+$error-color: #dc3545;
+$section-title-color: #212529;
+$card-bg: #fff;
+
+// ── Host ──────────────────────────────────────────────────────────────────────
+:host {
+  display: block;
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+// ── Wrapper ───────────────────────────────────────────────────────────────────
+.settings-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+.settings-card {
+  background: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+// ── Section title ─────────────────────────────────────────────────────────────
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: $section-title-color;
+  margin: 0 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $border-color;
+}
+
+// ── Grids ─────────────────────────────────────────────────────────────────────
+.form-grid {
+  display: grid;
+  gap: 16px 20px;
+
+  &--1 { grid-template-columns: 1fr; }
+  &--2 { grid-template-columns: repeat(2, 1fr); }
+  &--3 { grid-template-columns: repeat(3, 1fr); }
+
+  @media (max-width: 991px) {
+    &--3 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 575px) {
+    &--2,
+    &--3 { grid-template-columns: 1fr; }
+  }
+}
+
+.mt-3 { margin-top: 16px; }
+
+// ── Field group ───────────────────────────────────────────────────────────────
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: $label-color;
+  margin-bottom: 2px;
+
+  &.required::after {
+    content: ' *';
+    color: $error-color;
+  }
+}
+
+// ── Inputs & selects ─────────────────────────────────────────────────────────
+.field-input,
+.field-select {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: $input-bg;
+  font-size: 13px;
+  color: #212529;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: $input-focus;
+    box-shadow: 0 0 0 3px rgba($input-focus, 0.15);
+  }
+
+  &.is-invalid {
+    border-color: $error-color;
+    box-shadow: none;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($error-color, 0.15);
+    }
+  }
+}
+
+.field-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+.field-error {
+  font-size: 11px;
+  color: $error-color;
+  margin-top: 2px;
+}
+
+// ── File input ────────────────────────────────────────────────────────────────
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 36px;
+}
+
+.btn-choose {
+  flex-shrink: 0;
+  padding: 0 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #e9ecef;
+  border-right: 1px solid $border-color;
+  font-size: 13px;
+  color: #212529;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: background 0.15s ease;
+
+  &:hover { background: #d8dde3; }
+}
+
+.file-name {
+  padding: 0 10px;
+  font-size: 13px;
+  color: #6c757d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ── Action bar ────────────────────────────────────────────────────────────────
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 8px;
+
+  button {
+    min-width: 90px;
+    height: 36px;
+    padding: 0 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+}
+
+.btn-reset {
+  background: #fff;
+  color: $error-color;
+  border-color: $error-color;
+
+  &:hover {
+    background: rgba($error-color, 0.06);
+  }
+}
+
+.btn-save {
+  background: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+
+  &:hover {
+    background: #0b5ed7;
+    border-color: #0b5ed7;
+  }
+}

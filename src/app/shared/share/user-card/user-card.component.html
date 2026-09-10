@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex">
+      <h5 class="card-title flex-grow-1 mb-0">{{ user?.type || 'User' | titlecase }} Details :</h5>
+      <div class="flex-shrink-0">
+        <!-- <a href="javascript:void(0);" routerLink="/pages/profile" class="link-secondary">Edit</a> -->
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ul class="list-unstyled mb-0 vstack gap-2">
+      <li>
+        <div class="d-flex align-items-center mb-2">
+          <div class="flex-shrink-0">
+            <ngx-avatars [name]="user.name" [src]="user.imageUrl" size="70" initialsSize="2" textSizeRatio="5"
+              [round]="true"></ngx-avatars>
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <h6 class="fs-14 fw-bold mb-1">{{ user?.name | titlecase }}</h6>
+            <p class="text-muted mb-0" *ngIf="user?.mobile">{{ user?.mobile }}</p>
+            <p class="text-muted mb-0" *ngIf="user?.type">{{ user?.type | titlecase }}</p>
+          </div>
+        </div>
+      </li>
+      <li *ngIf="user?.email">
+        <i class="ri-mail-line me-2 align-middle text-muted fs-12"></i>
+        {{ user?.email | lowercase }}
+      </li>
+      <li *ngIf="user?.fullAddress">
+        <i class="ri-map-pin-line me-2 align-middle text-muted fs-12"></i>
+        {{ user?.fullAddress }}
+      </li>
+    </ul>
+  </div>
+</div>

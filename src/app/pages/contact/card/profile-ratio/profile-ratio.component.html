@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title mb-5">Completed Profile Ratio</h5>
+    <div class="progress animated-progess custom-progress progress-label">
+      <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="user.profilePercentage || 0"
+        aria-valuenow="{{ user.profilePercentage || 0 }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="label">{{ user.profilePercentage || 0 }}%</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,162 @@
+<mat-drawer-container class="mx-n4 mt-n4" *ngIf="customer && customer.id; else loading">
+
+  <mat-drawer #sideBar [autoFocus]="false" [mode]="'over'" [position]="'end'" class="side-drawer">
+    @if(sideView === 'form') {
+    <app-customer-form [customer]="customer" (onClose)="sideBar.close()"></app-customer-form>
+    }
+    @if(sideView === 'address') {
+    <utils-address-form [item]="selectedAddress" [user]="customer" (onClose)="sideBar.close(); sideView = null;">
+    </utils-address-form>
+    }
+    @if(sideView === 'payment-form') {
+    <utils-payment-form [customerId]="customer.id" [user]="customer" (onClose)="sideBar.close(); sideView = null;">
+    </utils-payment-form>
+    }
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="profile-foreground position-relative">
+      <div class="profile-wid-bg">
+        <img src="assets/images/profile-bg.jpg" alt="" class="profile-wid-img" />
+      </div>
+    </div>
+
+    <div class="pt-4 px-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
+      <div class="row g-4">
+        <div class="col-auto">
+          <div class="avatar-lg">
+            <ngx-avatars [name]="customer.name" [src]="customer.imageUrl" size="80" initialsSize="2" textSizeRatio="3"
+              [round]="true"></ngx-avatars>
+          </div>
+        </div>
+        <div class="col">
+          <div class="p-2">
+            <h3 class="text-white mb-1">{{ customer.name | titlecase }}</h3>
+            <p class="text-white text-opacity-75">{{ customer.type | titlecase }}</p>
+            <div class="grid justify-content-start align-items-center text-white-50 gap-0 mt-1">
+              <div *ngIf="customer.mobile">
+                <i class="ri-phone-line me-1 text-white text-opacity-75 fs-14 align-middle"></i>
+                {{ customer.mobile }}
+              </div>
+              <div *ngIf="customer.email">
+                <i class="ri-mail-line me-1 text-white text-opacity-75 fs-14 align-middle"></i>
+                {{ customer.email | lowercase }}
+              </div>
+              <div *ngIf="customer.fullAddress">
+                <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-14 align-middle"></i>
+                {{ customer.fullAddress | titlecase }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-2 order-last order-lg-0">
+          <div class="row text text-white-50 text-center">
+            <div class="col-lg-6 col-4">
+              <div class="p-2">
+                <h4 class="text-white mb-1">{{ customer.walletBalance | currency:'USD':'symbol':'1.3-3' }}</h4>
+                <p class="fs-14 mb-0">Wallet</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-4">
+              <div class="p-2">
+                <h4 class="text-white mb-1">{{ customer.code | uppercase }}</h4>
+                <p class="fs-14 mb-0">Code</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 px-4">
+        <div>
+          <div class="d-flex profile-wrapper">
+            <!-- Nav tabs -->
+            <ul ngbNav #customNav="ngbNav" [activeId]="1"
+              class="nav nav-pills animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1" role="tablist">
+
+              <li [ngbNavItem]="1" class="nav-item">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                  <i class="ri-airplay-fill d-inline-block d-md-none"></i>
+                  <span class="d-none d-md-inline-block">Overview</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="row">
+                    <div class="col-xxl-3">
+                      <app-contact-card-profile-ratio [user]="customer"></app-contact-card-profile-ratio>
+                      <app-contact-card-info [user]="customer"></app-contact-card-info>
+                      <button type="button" class="btn btn-info w-100 mb-2" (click)="makePayment()"
+                        *ngIf="customer.walletBalance > 0">
+                        <i class="ri-money-dollar-circle-line align-bottom"></i> Make Payment
+                      </button>
+                    </div>
+                    <div class="col-xxl-9">
+                      <app-contact-card-about [user]="customer"></app-contact-card-about>
+                      <app-contact-card-detail [user]="customer"></app-contact-card-detail>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+
+              <li [ngbNavItem]="2" class="nav-item">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                  <i class="ri-airplay-fill d-inline-block d-md-none"></i>
+                  <span class="d-none d-md-inline-block">Activity</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="row wrap">
+                    <div class="col-12 col-md-6">
+                      <app-contact-card-recent-transaction [user]="customer"
+                        (onMakePayment)="makePayment()"></app-contact-card-recent-transaction>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <app-contact-card-recent-sale-invoices [user]="customer"></app-contact-card-recent-sale-invoices>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <app-contact-card-recent-sale-orders [user]="customer"></app-contact-card-recent-sale-orders>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <app-contact-card-recent-enquiries [user]="customer"></app-contact-card-recent-enquiries>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+
+              <li [ngbNavItem]="3" class="nav-item">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                  <i class="ri-airplay-fill d-inline-block d-md-none"></i>
+                  <span class="d-none d-md-inline-block">Delivery Addresses</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <app-contact-card-address [user]="customer" (onAdd)="onAddAddress()"
+                    (onEdit)="onAddAddress($event)"></app-contact-card-address>
+                </ng-template>
+              </li>
+
+            </ul>
+            <div class="flex-shrink-0">
+              <a href="javascript:void(0);" (click)="location.back()" class="btn btn-warning me-2 text-gray-800">
+                <i class="ri-arrow-left-line align-bottom text-gray-800"></i> Back
+              </a>
+              <a href="javascript:void(0);" (click)="editForm()" class="btn btn-info me-2"
+                *ngIf="userService.permissionMatch(['manage customer'])">
+                <i class="ri-edit-box-line align-bottom"></i> Edit
+              </a>
+            </div>
+          </div>
+          <div class="tab-content pt-4 text-muted">
+            <div [ngbNavOutlet]="customNav"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<ng-template #loading>
+  <div class="section-height">
+    <lib-norecord title="Loading Customer..." subTitle="Please wait while we load the customer details."></lib-norecord>
+  </div>
+</ng-template>

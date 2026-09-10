@@ -1,0 +1,133 @@
+<div class="card form-dialog">
+  <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="mb-0 text-white">{{ 'Choose Class' | uppercase }}</h5>
+    </div>
+    <div class="d-flex align-items-center justify-content-end gap-2">
+      <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn header-btn1"
+        aria-label="Add Class" (click)="addItem()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button type="button" class="btn btn-light btn-xs text-dark rounded-circle shadow-xs header-btn"
+        aria-label="Close" (click)="closeView()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="search-panel bg-light-subtle">
+    <lib-search search="true" (onSearch)="pclassService.onSearch($event)"></lib-search>
+  </div>
+
+  @if(viewMode === 'list') {
+  <div class="card-body bg-gray-100">
+    <div data-simplebar>
+      @if(items && items.length > 0) {
+      <ul class="list-group p-1" infiniteScroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="100"
+        (scrolled)="pclassService.onScroll()" [scrollWindow]="false">
+        @for(item of items; track item) {
+        <li
+          class="list-group-item list-group-item-action d-flex justify-content-between align-items-center cursor-pointer"
+          *ngIf="item && item.id" (click)="chooseItem(item)">
+          {{ item.name | titlecase }}
+          <span class="badge rounded-pill border border-info text-info">
+            {{ item.code | uppercase }}
+          </span>
+        </li>
+        }
+      </ul>
+      } @else {
+      <lib-norecord title="No Categories Found"
+        subTitle="We couldn't find any categories. Please add new categories to see them here."></lib-norecord>
+      }
+    </div>
+
+  </div>
+
+  <div class="card-footer bg-light-subtle text-end">
+    <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeView()">
+      {{ 'close' | titlecase }}
+    </button>
+  </div>
+
+  } @else if(viewMode === 'form') {
+  <form [formGroup]="form" class="card form-dialog">
+    <div class="card-body">
+      <div class="row g-2">
+
+        <!-- Name -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'name' | titlecase }}</label>
+          <input type="text" name="name" formControlName="name" class="form-control"
+            placeholder="{{ 'Name' | titlecase }}" required matTooltip="Name" maxlength="50" minlength="3" />
+          @if (form?.get('name').touched && form?.get('name').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('name').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min3' | titlecase }}</div>
+          }
+          @if (form?.get('name').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Code -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'code' | titlecase }}</label>
+          <input type="text" name="code" formControlName="code" class="form-control"
+            placeholder="{{ 'Code' | titlecase }}" required matTooltip="Code" maxlength="50" minlength="1" />
+          @if (form?.get('code').touched && form?.get('code').errors?.required) {
+          <div class="invalid-feedback d-block">{{ 'error.mandatoryInput' | titlecase }}</div>
+          }
+          @if (form?.get('code').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('code').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Description -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'description' | titlecase }}</label>
+          <textarea name="description" formControlName="description" class="form-control" rows="3"
+            placeholder="{{ 'Description' | titlecase }}" matTooltip="Description" maxlength="50"
+            minlength="1"></textarea>
+          @if (form?.get('description').hasError('minlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.min1' | titlecase }}</div>
+          }
+          @if (form?.get('description').hasError('maxlength')) {
+          <div class="invalid-feedback d-block">{{ 'error.max50' | titlecase }}</div>
+          }
+        </div>
+
+        <!-- Is Active -->
+        <div class="col-12 mb-2">
+          <label class="form-label fw-semibold">{{ 'is_active' | titlecase }}</label>
+          <mat-slide-toggle formControlName="is_active" color="primary" aria-label="Is Active"></mat-slide-toggle>
+          <div *ngIf="form?.get('is_active').touched && form?.get('is_active').errors?.required"
+            class="invalid-feedback d-block">
+            {{ 'error.mandatoryInput' | titlecase }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer bg-white text-end">
+      <button type="button" class="btn btn-outline-secondary me-2" aria-label="Cancel" (click)="closeForm()">
+        {{ 'cancel' | titlecase }}
+      </button>
+      @if(item && item.id) {
+      <button type="button" class="btn btn-success" (click)="update(item)" [disabled]="!form.touched">
+        {{ 'update' | titlecase }}
+      </button>
+      } @else {
+      <button type="button" class="btn btn-success" (click)="save()" [disabled]="!form.touched">
+        {{ 'save' | titlecase }}
+      </button>
+      }
+    </div>
+  </form>
+  }
+
+</div>
