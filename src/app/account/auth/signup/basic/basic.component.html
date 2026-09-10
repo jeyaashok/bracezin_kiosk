@@ -38,7 +38,7 @@
                 <p class="text-muted">Get your free bracezin account now</p>
               </div>
               @if(apiError){
-                <div class="alert alert-danger border-0 mt-3 mb-0" role="alert">{{ apiError }}</div>
+              <div class="alert alert-danger border-0 mt-3 mb-0" role="alert">{{ apiError }}</div>
               }
               <div class="p-2 mt-4">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -47,14 +47,14 @@
                     <input type="text" class="form-control" id="username" placeholder="Enter Username" required
                       formControlName="username" [ngClass]="{ 'is-invalid': submitted && f['username'].errors }">
                     @if (form?.get('username').touched && form?.get('username').errors?.required) {
-                      <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
                     }
                     @if (form?.get('username').hasError('minlength')) {
-                      <div class="invalid-feedback d-block">{{ 'Must be at least 3 Characters' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'Must be at least 3 Characters' | titlecase }}</div>
                     }
                     @if (form?.get('username').hasError('maxlength')) {
-                      <div class="invalid-feedback d-block">{{ 'Not Exceed more than 25 Characters' | titlecase }}
-                      </div>
+                    <div class="invalid-feedback d-block">{{ 'Not Exceed more than 25 Characters' | titlecase }}
+                    </div>
                     }
                   </div>
 
@@ -63,17 +63,17 @@
                     <input type="email" class="form-control" id="email" placeholder="Enter email address" required
                       formControlName="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
                     @if (form?.get('email').touched && form?.get('email').errors?.required) {
-                      <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
                     }
                     @if (form?.get('email').hasError('email')) {
-                      <div class="invalid-feedback d-block">{{ 'A Valid Email Required' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'A Valid Email Required' | titlecase }}</div>
                     }
                     @if (form?.get('email').hasError('minlength')) {
-                      <div class="invalid-feedback d-block">{{ 'Must be at least 4 Characters' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'Must be at least 4 Characters' | titlecase }}</div>
                     }
                     @if (form?.get('email').hasError('maxlength')) {
-                      <div class="invalid-feedback d-block">{{ 'Not Exceed more than 50 Characters' | titlecase }}
-                      </div>
+                    <div class="invalid-feedback d-block">{{ 'Not Exceed more than 50 Characters' | titlecase }}
+                    </div>
                     }
                   </div>
 
@@ -82,14 +82,14 @@
                     <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile" required
                       formControlName="mobile" [ngClass]="{ 'is-invalid': submitted && f['mobile'].errors }">
                     @if (form?.get('mobile').touched && form?.get('mobile').errors?.required) {
-                      <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
                     }
                     @if (form?.get('mobile').hasError('minlength')) {
-                      <div class="invalid-feedback d-block">{{ 'Must be at least 8 Characters' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'Must be at least 8 Characters' | titlecase }}</div>
                     }
                     @if (form?.get('mobile').hasError('maxlength')) {
-                      <div class="invalid-feedback d-block">{{ 'Not Exceed more than 10 Characters' | titlecase }}
-                      </div>
+                    <div class="invalid-feedback d-block">{{ 'Not Exceed more than 10 Characters' | titlecase }}
+                    </div>
                     }
                   </div>
 
@@ -104,7 +104,7 @@
                       </option>
                     </select>
                     @if (form?.get('type').touched && form?.get('type').errors?.required) {
-                      <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
+                    <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
                     }
                   </div>
 
@@ -122,20 +122,20 @@
                           (click)="toggleFieldTextType()"></i>
                       </button>
                       @if (form?.get('password').touched && form?.get('password').errors?.required) {
-                        <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
+                      <div class="invalid-feedback d-block">{{ 'Required' | titlecase }}</div>
                       }
                       @if (form?.get('password').hasError('minlength')) {
-                        <div class="invalid-feedback d-block">{{ 'Must be at least 8 Characters' | titlecase }}
-                        </div>
+                      <div class="invalid-feedback d-block">{{ 'Must be at least 8 Characters' | titlecase }}
+                      </div>
                       }
                       @if (form?.get('password').hasError('maxlength')) {
-                        <div class="invalid-feedback d-block">{{ 'Not Exceed more than 25 Characters' | titlecase }}
-                        </div>
+                      <div class="invalid-feedback d-block">{{ 'Not Exceed more than 25 Characters' | titlecase }}
+                      </div>
                       }
                       @if (form?.get('password').hasError('pattern')) {
-                        <div class="invalid-feedback d-block">
-                          {{ 'Atleast 1-Upper(A-Z), 1-Lower(a-z), 1-number(0-9)' | titlecase }}
-                        </div>
+                      <div class="invalid-feedback d-block">
+                        {{ 'Atleast 1-Upper(A-Z), 1-Lower(a-z), 1-number(0-9)' | titlecase }}
+                      </div>
                       }
                     </div>
                   </div>
