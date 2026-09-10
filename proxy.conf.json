@@ -1,0 +1,14 @@
+{
+  "/api/v1": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api": {
+    "target": "https://apporder.bracezin.in",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
