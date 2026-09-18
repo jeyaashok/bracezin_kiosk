@@ -52,7 +52,7 @@ export class TodoEffects {
                 )
             )
         )
-    );;
+    );
 
     constructor(
         private actions$: Actions,

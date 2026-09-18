@@ -19,7 +19,7 @@ export class CoverComponent implements OnInit {
   
   apiError: string = '';
   item: any;
-  types = ['company', 'customer', 'agent'];
+  types = ['company', 'staff', 'agent', 'admin'];
 
   constructor(private formBuilder: UntypedFormBuilder,
     public userService: UserService,

@@ -16,6 +16,7 @@ import { RecentRequestForQuoteComponent } from './recent-request-for-quote/recen
 import { RecentAgentSaleOrdersComponent } from './recent-agent-sale-orders/recent-agent-sale-orders.component';
 import { RecentAgentPurchaseOrdersComponent } from './recent-agent-purchase-orders/recent-agent-purchase-orders.component';
 import { RolesPermissionsComponent } from './roles-permissions/roles-permissions.component';
+import { PasswordChangeComponent } from "./password-change/password-change.component";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { RolesPermissionsComponent } from './roles-permissions/roles-permissions
     RecentRequestForQuoteComponent,
     RecentAgentSaleOrdersComponent,
     RecentAgentPurchaseOrdersComponent,
-    RolesPermissionsComponent
+    RolesPermissionsComponent,
+    PasswordChangeComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { RolesPermissionsComponent } from './roles-permissions/roles-permissions
     RecentRequestForQuoteComponent,
     RecentAgentSaleOrdersComponent,
     RecentAgentPurchaseOrdersComponent,
-    RolesPermissionsComponent
+    RolesPermissionsComponent,
+    PasswordChangeComponent
   ]
 })
 export class CardModule { }

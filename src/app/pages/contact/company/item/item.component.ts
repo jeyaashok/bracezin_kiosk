@@ -3,10 +3,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Address, AgentService, AddressService, User, AddressModel, PayoutService, UserService } from 'src/@bracezin/_dbShare';
+import { Address, CompanyService, AddressService, User, AddressModel, PayoutService, UserService } from 'src/@bracezin/_dbShare';
 
 @Component({
-  selector: 'app-agent-item',
+  selector: 'app-company-item',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
   standalone: false
@@ -20,13 +20,13 @@ export class ItemComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   
   id: string = this.route.snapshot.params['id'] || null;
-  agent!: User;
+  company!: User;
   selectedAddress!: Address;
   
   constructor(
     private route: ActivatedRoute,
     public location: Location,
-    public agentService: AgentService,
+    public companyService: CompanyService,
     public userService: UserService,
     public addressService: AddressService,
     public payoutService: PayoutService) {
@@ -35,29 +35,29 @@ export class ItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Agents' },
-      { label: 'Agent Dashboard', active: true }
+      { label: 'Companies' },
+      { label: 'Company Dashboard', active: true }
     ];
     this.getData();
   }
 
   dataInit() {
-    this.agentService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
+    this.companyService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isStored.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isDeleted.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.payoutService.isStored.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     effect(() => {
-      let agent = this.agentService.item();
-      if (agent && agent.id) {
-        this.agent = agent;
+      let company = this.companyService.item();
+      if (company && company.id) {
+        this.company = company;
       }
     });
   }
 
   getData() {
     if(this.id) {
-      this.agentService.getItem({id: this.id, with: 'detail', appends: 'userPermissions'});
+      this.companyService.getItem({id: this.id, with: 'detail', appends: 'userPermissions'});
     }
   }
 
@@ -70,7 +70,7 @@ export class ItemComponent implements OnInit {
     this.selectedAddress = (address && address.id) ? address : new AddressModel({});
     this.sideView = 'address';
     this.sideBar?.toggle();
-  }
+  } 
 
   makePayment() {
     this.sideView = 'payment-form';

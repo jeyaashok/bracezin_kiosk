@@ -290,9 +290,9 @@ export class UserService {
 		return (authUser && authUser.type && authUser.type === 'staff') ? true : false;
 	}
 
-	isAuthUserIsCustomer(): boolean {
+	isAuthUserIsCompany(): boolean {
 		let authUser = this.authUser();
-		return (authUser && authUser.type && authUser.type === 'customer') ? true : false;
+		return (authUser && authUser.type && authUser.type === 'company') ? true : false;
 	}
 
 	isAuthUserIsVendor(): boolean {
@@ -311,8 +311,8 @@ export class UserService {
 			output = 'staff';
 		} else if (authUser && authUser.type && authUser.type === 'vendor') {
 			output = 'vendor';
-		} else if (authUser && authUser.type && authUser.type === 'customer') {
-			output = 'customer';
+		} else if (authUser && authUser.type && authUser.type === 'company') {
+			output = 'company';
 		}
 		return output;
 	}

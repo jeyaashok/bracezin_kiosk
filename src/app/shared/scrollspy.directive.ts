@@ -7,7 +7,7 @@ import { Directive, Input, EventEmitter, Inject, Output, ElementRef, HostListene
 })
 export class ScrollspyDirective {
 
-  @Input() public spiedTags : string[] = [];;
+  @Input() public spiedTags : string[] = [];
   @Output() public sectionChange = new EventEmitter<string>();
   private currentSection: string | undefined;
 

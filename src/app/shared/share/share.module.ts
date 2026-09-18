@@ -15,7 +15,6 @@ import { UserCardOneComponent } from './user-card-one/user-card-one.component';
 import { UserCardTwoComponent } from './user-card-two/user-card-two.component';
 import { UserCardThreeComponent } from './user-card-three/user-card-three.component';
 import { UserCardFourComponent } from './user-card-four/user-card-four.component';
-import { ProductCardComponent } from './product-card/product-card.component';
 import { AddressCardComponent } from './address-card/address-card.component';
 import { StatGridCardComponent } from './stat-grid-card/stat-grid-card.component';
 
@@ -26,7 +25,6 @@ import { StatGridCardComponent } from './stat-grid-card/stat-grid-card.component
 		UserCardTwoComponent,
 		UserCardThreeComponent,
 		UserCardFourComponent,
-		ProductCardComponent,
 		AddressCardComponent,
 		StatGridCardComponent
 	],
@@ -47,7 +45,6 @@ import { StatGridCardComponent } from './stat-grid-card/stat-grid-card.component
 		UserCardTwoComponent,
 		UserCardThreeComponent,
 		UserCardFourComponent,
-		ProductCardComponent,
 		AddressCardComponent,
 		StatGridCardComponent
 	]

@@ -3,10 +3,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Address, AgentService, AddressService, User, AddressModel, PayoutService, UserService } from 'src/@bracezin/_dbShare';
+import { Address, AdminService, AddressService, User, AddressModel, PayoutService, UserService } from 'src/@bracezin/_dbShare';
 
 @Component({
-  selector: 'app-agent-item',
+  selector: 'app-admin-item',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
   standalone: false
@@ -20,13 +20,13 @@ export class ItemComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   
   id: string = this.route.snapshot.params['id'] || null;
-  agent!: User;
+  admin!: User;
   selectedAddress!: Address;
   
   constructor(
     private route: ActivatedRoute,
     public location: Location,
-    public agentService: AgentService,
+    public adminService: AdminService,
     public userService: UserService,
     public addressService: AddressService,
     public payoutService: PayoutService) {
@@ -35,29 +35,29 @@ export class ItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Agents' },
-      { label: 'Agent Dashboard', active: true }
+      { label: 'Admins' },
+      { label: 'Admin Dashboard', active: true }
     ];
     this.getData();
   }
 
   dataInit() {
-    this.agentService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
+    this.adminService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isStored.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isDeleted.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.payoutService.isStored.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     effect(() => {
-      let agent = this.agentService.item();
-      if (agent && agent.id) {
-        this.agent = agent;
+      let admin = this.adminService.item();
+      if (admin && admin.id) {
+        this.admin = admin;
       }
     });
   }
 
   getData() {
     if(this.id) {
-      this.agentService.getItem({id: this.id, with: 'detail', appends: 'userPermissions'});
+      this.adminService.getItem({id: this.id, with: 'detail', appends: 'userPermissions'});
     }
   }
 

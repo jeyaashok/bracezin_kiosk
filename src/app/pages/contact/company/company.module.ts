@@ -6,7 +6,7 @@ import { LibraryModule } from '@bracezin/library.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from './../card/card.module';
 
-import { StaffRoutingModule } from "./staff-routing.module";
+import { CompanyRoutingModule } from "./company-routing.module";
 import { ListComponent } from "./list/list.component";
 import { ItemComponent } from "./item/item.component";
 import { FormComponent } from "./form/form.component";
@@ -22,10 +22,10 @@ import { FormComponent } from "./form/form.component";
 		AppShareModule,
 		UtilsModule,
 		LibraryModule,
-    StaffRoutingModule,
+    CompanyRoutingModule,
     ReactiveFormsModule,
     CardModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class StaffModule { }
+export class CompanyModule { }

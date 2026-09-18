@@ -6,17 +6,17 @@ import { MatDialogRef } from '@angular/material/dialog';
 const REQUIRED_PASSWORD = 'admin123';
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  selector: 'app-password-change',
+  templateUrl: './password-change.component.html',
+  styleUrls: ['./password-change.component.scss'],
   standalone: false
 })
-export class ChangePasswordComponent {
+export class PasswordChangeComponent {
   passwordControl = new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(25), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$')]);
   showPassword: boolean = false;
   errorMessage: string = '';
 
-  constructor(public dialogRef: MatDialogRef<ChangePasswordComponent>) {}
+  constructor(public dialogRef: MatDialogRef<PasswordChangeComponent>) {}
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;

@@ -8,7 +8,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Staff, StaffService, StaffModel, UserService } from 'src/@bracezin/_dbShare';
 import { ConfirmComponent } from '@bracezin/components/confirm/confirm.component';
-import { PasswordConfirmComponent } from '../password-confirm/password-confirm.component';
+import { PasswordChangeComponent } from '../../card/password-change/password-change.component';
 
 @UntilDestroy()
 @Component({
@@ -130,7 +130,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
 	changePassword(staff: Staff): void {
     if(staff && staff.id) {
-      let dialogRef = this.matDialog.open(PasswordConfirmComponent, {
+      let dialogRef = this.matDialog.open(PasswordChangeComponent, {
         disableClose: false,
         width: '400px'
       });
