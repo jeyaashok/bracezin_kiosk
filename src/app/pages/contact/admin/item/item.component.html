@@ -90,6 +90,18 @@
                         *ngIf="admin.walletBalance > 0">
                         <i class="ri-money-dollar-circle-line align-bottom"></i> Make Payment
                       </button>
+                      <button type="button" class="btn btn-danger w-100 mb-2" (click)="changePassword()">
+                        <i class="ri-lock-line align-bottom"></i> Change Password
+                      </button>
+                      <button type="button" class="btn btn-info w-100 mb-2" (click)="doChangePassword()">
+                        <i class="ri-lock-line align-bottom"></i> Force to Change Password
+                      </button>
+                      <button type="button" class="btn btn-warning w-100 mb-2" (click)="doVerifyEmail()">
+                        <i class="ri-lock-line align-bottom"></i> Force to Verify Email
+                      </button>
+                      <button type="button" class="btn btn-secondary w-100 mb-2" (click)="doVerifyMobile()">
+                        <i class="ri-lock-line align-bottom"></i> Force to Verify Mobile
+                      </button>
                     </div>
                     <div class="col-xxl-9">
                       <app-contact-card-about [user]="admin"></app-contact-card-about>
