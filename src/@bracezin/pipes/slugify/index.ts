@@ -1,1 +1,1 @@
-export * from '@octopus/pipes/slugify/public-api';
+export * from 'src/@bracezin/pipes/slugify/public-api';

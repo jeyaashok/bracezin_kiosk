@@ -173,7 +173,7 @@ export class AddressListComponent implements OnInit, OnChanges, OnDestroy {
 						filterInteractiveKeys.forEach((key) => {
 							if (typeof itemDataSearch[i][key] === 'string' && typeof searchData === 'string') {
 								if (itemDataSearch[i][key].toLowerCase().indexOf(searchData.toLowerCase()) > -1) {
-									const found = filterData.some(el => el._id === itemDataSearch[i]._id);
+									const found = filterData.some(el => el.id === itemDataSearch[i].id);
 									if (!found) {
 										filterData.push(itemDataSearch[i]);
 									}

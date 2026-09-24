@@ -1,0 +1,76 @@
+<div class="card">
+    <div class="card-header align-items-center d-flex">
+        <h4 class="card-title mb-0 flex-grow-1">Media</h4>
+        <div class="flex-shrink-0">
+            <button type="button" class="btn btn-soft-success btn-sm" (click)="addForm()" matTooltip="Ad Media"
+                aria-label="Ad Media">
+                <i class="ri-add-line align-bottom"></i> Add Media
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- <h5 class="card-title mb-3">Media</h5> -->
+        <div class="row gallery-wrapper">
+            <input class="form-control d-none" id="mediaInput" type="file" accept="image/*, video/*, application/*"
+                (change)="imageHandler($event)">
+            @if (isUploading) {
+            <div class="col-12 mt-2 mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <small class="text-muted">{{ uploadStatus }}</small>
+                    <small class="text-muted">{{ uploadProgress }}%</small>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar" role="progressbar" [style.width.%]="uploadProgress"></div>
+                </div>
+            </div>
+            }
+            @if (medias && medias?.length > 0) {
+            @for(data of medias;track data; let index = $index) {
+            <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing development"
+                data-category="designing development">
+                <div class="gallery-box card">
+                    <div class="gallery-container">
+                        <a class="image-popup" title="">
+                            <img class="gallery-img img-fluid mx-auto"
+                                [src]="data.thumb_url || data.url | secureMediaUrl" alt="" />
+                            <div class="gallery-overlay" (click)="open(index)">
+                                <h5 class="overlay-caption">{{ data.name | titlecase }}</h5>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="box-content">
+                        <div class="d-flex align-items-center mt-1">
+                            <div class="flex-grow-1 text-muted">
+                                <i class="ri-file-copy-2-line me-1 text-muted align-bottom"></i>
+                                <a href="javascript:void(0);" class="text-body text-truncate">{{data.fileSize}}</a>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="d-flex gap-3">
+                                    <button type="button"
+                                        class="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0 shadow-none">
+                                        <i class="ri-thumb-up-fill text-muted align-bottom me-1"></i> {{data.likes}}
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0 shadow-none">
+                                        <i class="ri-question-answer-fill text-muted align-bottom me-1"></i>
+                                        {{data.comments}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            } @else {
+            <div class="section-height">
+                <lib-norecord title="No Media Found"
+                    subTitle="We couldn't find any Media. Please add new Media to see them here."
+                    [addButton]="{'title':'Add Media', 'icon': 'add_circle', 'color': 'btn-success','tooltip':'Add Media'}"
+                    (addNew)="addForm()"></lib-norecord>
+            </div>
+            }
+        </div>
+    </div>
+</div>

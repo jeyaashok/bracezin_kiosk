@@ -1,23 +1,28 @@
 .rolesTable {
 	background-color: #f2f2f7;
 	overflow-x: auto;
+	overflow-y: visible;
 	position: relative;
 	padding-left: 16px;
+	width: 100%;
 
 	table {
 		border-collapse: separate;
 		border-spacing: 0;
+		min-width: 100%;
+		width: auto;
 	}
 
 	.headerFirst {
 		position: sticky;
 		left: 0;
 		top: 0;
-		z-index: 8;
+		z-index: 8 !important;
 		text-align: center;
 		vertical-align: middle;
 		border-right: 1px solid #dee2e6;
 		background-color: #f8fafc;
+		min-width: 240px;
 	}
 
 	thead tr:nth-child(1) th {
@@ -34,12 +39,29 @@
 		background-color: #f8fafc;
 	}
 
+	tbody tr.subHeaderRow td:first-child {
+		position: sticky;
+		left: 0;
+		z-index: 5;
+		min-width: 240px;
+	}
+
 	tbody tr.rowItem td:first-child {
 		position: sticky;
 		left: 0;
 		z-index: 5;
 		background-color: white;
 		border-right: 1px solid #dee2e6;
+		min-width: 240px;
+	}
+
+	// Set minimum width for role columns (all columns except first)
+	thead th:not(.headerFirst) {
+		min-width: 150px;
+	}
+
+	tbody td:not(:first-child) {
+		min-width: 150px;
 	}
 
 	.rowItem {

@@ -53,7 +53,8 @@
               @if(matchOrder(module.key, order)) {
               @if(module.value && module.value.length > 0) {
               <tr class="subHeaderRow">
-                <td scope="col" [attr.colspan]="filteredRoles.length + 1">{{ module.key | titlecase }}</td>
+                <td scope="col">{{ module.key | titlecase }}</td>
+                <td scope="col" [attr.colspan]="filteredRoles.length"></td>
               </tr>
               <tr class="rowItem" *ngFor="let permission of module.value; let last = last"
                 [ngClass]="{ 'lastRow': last }">

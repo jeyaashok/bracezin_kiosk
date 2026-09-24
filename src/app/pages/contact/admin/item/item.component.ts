@@ -7,7 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from '@bracezin/components/confirm/confirm.component';
 import { PasswordChangeComponent } from '../../card/password-change/password-change.component';
 
-import { Address, AdminService, AddressService, User, AddressModel, PayoutService, UserService } from 'src/@bracezin/_dbShare';
+import { Address, AdminService, AddressService, User, AddressModel, PayoutService, PermissionService, Permission, UserService, Media, MediaService } from 'src/@bracezin/_dbShare';
+import { X } from 'angular-feather/icons';
 
 @Component({
   selector: 'app-admin-item',
@@ -26,12 +27,20 @@ export class ItemComponent implements OnInit {
   id: string = this.route.snapshot.params['id'] || null;
   admin!: User;
   selectedAddress!: Address;
+
+  permissions: Permission[] = [];
+  permissionParams: any;
+
+  medias: Media[] = [];
+  mediaParams: any;
   
   constructor(
     private route: ActivatedRoute,
     public location: Location,
     public adminService: AdminService,
     public userService: UserService,
+    public mediaService: MediaService,
+    public permissionService: PermissionService,
     public addressService: AddressService,
     public payoutService: PayoutService,
 		private matDialog: MatDialog) {
@@ -47,16 +56,31 @@ export class ItemComponent implements OnInit {
   }
 
   dataInit() {
+    this.permissionService.params.pipe(untilDestroyed(this)).subscribe(data => this.permissionParams = data);
     this.adminService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isStored.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isDeleted.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.payoutService.isStored.pipe(untilDestroyed(this)).subscribe(data => this.getData());
+    this.mediaService.params.pipe(untilDestroyed(this)).subscribe((params) => (this.mediaParams = params));
+    this.mediaService.isStored.pipe(untilDestroyed(this)).subscribe((data) => this.getMediaData());
+    this.mediaService.isUpdated.pipe(untilDestroyed(this)).subscribe((data) => this.getMediaData());
+    this.mediaService.isDeleted.pipe(untilDestroyed(this)).subscribe((data) => this.getMediaData());
     effect(() => {
       let admin = this.adminService.item();
       if (admin && admin.id) {
         this.admin = admin;
       }
+    });
+    effect(() => {
+      let permissions = this.permissionService.libraries();
+      this.permissions = (permissions && permissions.length > 0) ? permissions : [];
+    });
+    effect(() => {
+      let medias = this.mediaService.allItems();
+      console.log(medias);
+      this.medias = (medias && medias.length > 0 && this.id) ? medias.filter(x => (x && x.user_id === Number(this.id)) ? true : false) : [];
+      console.log(this.medias);
     });
   }
 
@@ -64,6 +88,20 @@ export class ItemComponent implements OnInit {
     if(this.id) {
       this.adminService.getItem({id: this.id, with: 'detail', appends: 'userPermissions'});
     }
+    this.permissionParams.all = 1;
+		this.permissionParams.paginate = null;
+		this.permissionParams.page = null;
+		this.permissionService.getAllItems();
+    this.getMediaData();
+  }
+
+  getMediaData() {
+    if (this.id) {
+      this.mediaParams.resource_id = this.id;
+      this.mediaParams.resource_type = 'users';
+      this.mediaService.changeParams(this.mediaParams);
+    }
+    this.mediaService.getAllItems();
   }
 
   editForm(): void {

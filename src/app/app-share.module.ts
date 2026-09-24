@@ -31,6 +31,9 @@ import { WidgetModule } from './shared/widget/widget.module';
 import { LibraryModule } from '@bracezin/library.module';
 import { ShareModule } from './shared/share/share.module';
 
+import { SlugifyPipe } from 'src/@bracezin/pipes/slugify/slugify.pipe';
+import { SecureMediaUrlPipe } from 'src/@bracezin/pipes/secure-media-url/secure-media-url.pipe';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -61,7 +64,9 @@ import { ShareModule } from './shared/share/share.module';
     SlickCarouselModule,
     LibraryModule,
 		ShareModule,
-		DecimalInputDirective
+		DecimalInputDirective,
+    SlugifyPipe,
+    SecureMediaUrlPipe
   ],
   exports: [
     CommonModule,
@@ -91,10 +96,14 @@ import { ShareModule } from './shared/share/share.module';
     AngularEditorModule,
     LibraryModule,
 		ShareModule,
-		DecimalInputDirective
+		DecimalInputDirective,
+    SlugifyPipe,
+    SecureMediaUrlPipe
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    SlugifyPipe,
+    SecureMediaUrlPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

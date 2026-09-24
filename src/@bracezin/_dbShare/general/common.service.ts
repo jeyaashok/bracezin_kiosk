@@ -726,11 +726,7 @@ export class CommonService {
 
 	// Store Multiform File Data
 	fileUpload(url: string, data: any, withResellerId: boolean = true, urlOption: any = null): Observable<any> {
-		// this.getBackendUrl(urlOption);
 		var tji_domain = this.getBaseUrl(urlOption);
-		// if (this.client_id && this.client_id !== null && this.client_id > 0) {
-		// 	data.append('client_id', this.client_id);
-		// }
 		if (!this.isStaff && withResellerId && this.reseller_id && this.reseller_id !== null && this.reseller_id > 0) { data.reseller_id = this.reseller_id; }
 		const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.tji_token });
 

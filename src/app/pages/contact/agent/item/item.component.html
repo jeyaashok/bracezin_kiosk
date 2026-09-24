@@ -134,6 +134,21 @@
                 </ng-template>
               </li>
 
+              <li [ngbNavItem]="3" class="nav-item">
+                <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
+                  <i class="ri-airplay-fill d-inline-block d-md-none"></i>
+                  <span class="d-none d-md-inline-block">Roles & Permissions</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div class="row wrap">
+                    <div class="col-12">
+                      <app-contact-card-roles-permissions [user]="agent"
+                        [permissions]="permissions"></app-contact-card-roles-permissions>
+                    </div>
+                  </div>
+                </ng-template>
+              </li>
+
             </ul>
             <div class="flex-shrink-0">
               <a href="javascript:void(0);" (click)="location.back()" class="btn btn-warning me-2 text-gray-800">

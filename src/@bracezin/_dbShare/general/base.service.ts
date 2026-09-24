@@ -148,14 +148,12 @@ export class BaseService {
 		let libraries: Array<any> = this.libraries();
 		let isReplaced: boolean = false;
 		if (libraries && libraries.length === 1 &&
-			((libraries[0].id && libraries[0].id === id) ||
-				(libraries[0]._id && libraries[0]._id === id))) {
+			(libraries[0].id && libraries[0].id === id)) {
 			libraries = [];
 		}
 		if (libraries && libraries.length > 0) {
 			for (var i = 0; i < libraries.length; ++i) {
-				if ((libraries[i] && libraries[i].id && libraries[i].id === id) ||
-					(libraries[i] && libraries[i]._id && libraries[i]._id === id)) {
+				if (libraries[i] && libraries[i].id && libraries[i].id === id) {
 					libraries.splice(i, 1);
 					isReplaced = true;
 					break;
@@ -169,14 +167,12 @@ export class BaseService {
 		let allItems: Array<any> = this.allItems();
 		let isReplaced: boolean = false;
 		if (allItems && allItems.length === 1 &&
-			((allItems[0].id && allItems[0].id === id) ||
-				(allItems[0]._id && allItems[0]._id === id))) {
+			(allItems[0].id && allItems[0].id === id)) {
 			allItems = [];
 		}
 		if (allItems && allItems.length > 0) {
 			for (var i = 0; i < allItems.length; ++i) {
-				if ((allItems[i] && allItems[i].id && allItems[i].id === id) ||
-					(allItems[i] && allItems[i]._id && allItems[i]._id === id)) {
+				if (allItems[i] && allItems[i].id && allItems[i].id === id) {
 					allItems.splice(i, 1);
 					isReplaced = true;
 					break;
@@ -192,8 +188,7 @@ export class BaseService {
 		var oldLists: Array<any> = this.libraries();
 		if (oldLists && oldLists.length > 0 && item && item.id) {
 			for (var i = 0; i < oldLists.length; ++i) {
-				if ((oldLists[i] && oldLists[i].id && oldLists[i].id === item.id) ||
-					(oldLists[i] && oldLists[i]._id && oldLists[i]._id === item._id)) {
+				if (oldLists[i] && oldLists[i].id && oldLists[i].id === item.id) {
 					oldLists.splice(i, 1, item);
 					isReplaced = true;
 					break;
@@ -311,7 +306,7 @@ export class BaseService {
 
 	concatNewItem(item: any) {
 		var allItems: Array<any> = this.allItems();
-		let newItems = (item && (item.id || item._id)) ? [item] : [];
+		let newItems = (item && item.id) ? [item] : [];
 		if (allItems && allItems.length > 0) {
 			allItems = this.globalService.arrayMergeById(allItems, newItems);
 		} else {
@@ -445,13 +440,12 @@ export class BaseService {
 	}
 
 	concatItem(item: any) {
-		let id = item?.id || item?._id || null;
+		let id = item?.id || null;
 		let allItems = this.allItems();
 		let isReplaced: boolean = false;
 		if (allItems && allItems.length > 0 && id) {
 			for (var i = 0; i < allItems.length; ++i) {
-				if ((allItems[i] && allItems[i].id && item && item.id && allItems[i].id === item.id) ||
-					(allItems[i] && allItems[i]._id && item && item._id && allItems[i]._id === item._id)) {
+				if (allItems[i] && allItems[i].id && item && item.id && allItems[i].id === item.id) {
 					// allItems[i] = item;
 					allItems.splice(i, 1, item);
 					isReplaced = true;
@@ -469,14 +463,12 @@ export class BaseService {
 		let allItems = this.allItems();
 		let isReplaced: boolean = false;
 		if (allItems && allItems.length === 1 &&
-			((allItems[0].id && allItems[0].id === id) ||
-				(allItems[0]._id && allItems[0]._id === id))) {
+			(allItems[0].id && allItems[0].id === id)) {
 			allItems = [];
 		}
 		if (allItems && allItems.length > 0) {
 			for (var i = 0; i < allItems.length; ++i) {
-				if ((allItems[i] && allItems[i].id && allItems[i].id === id) ||
-					(allItems[i] && allItems[i]._id && allItems[i]._id === id)) {
+				if (allItems[i] && allItems[i].id && allItems[i].id === id) {
 					allItems.splice(i, 1);
 					isReplaced = true;
 					break;
@@ -491,9 +483,7 @@ export class BaseService {
 		this.routeParams = (params) ? params : this.routeParams;
 		let option: any = (urlOption) ? urlOption : this.urlOption;
 		let newParams = this.routeParams;
-		if (newParams && newParams._id && !newParams.id) {
-			newParams.id = newParams._id;
-		}
+		
 		if (newParams && !isNaN(Number(newParams.id)) && Number(newParams.id) > 0) {
 			if (newParams.hasOwnProperty("paginate")) { newParams.paginate = null; }
 			if (newParams.hasOwnProperty("page")) { newParams.page = null; }
@@ -524,9 +514,7 @@ export class BaseService {
 		let option: any = (urlOption) ? urlOption : this.urlOption;
 		let newParams = this.routeParams;
 		let url = itemUrl || newParams?.url || this.url;
-		if (newParams && newParams._id && !newParams.id) {
-			newParams.id = newParams._id;
-		}
+		
 		if (newParams && newParams.id) {
 			// if (newParams && newParams.id && (!isNaN(Number(newParams.id)) && Number(newParams.id) > 0)) {
 			if (newParams.hasOwnProperty("paginate")) { newParams.paginate = null; }
@@ -539,12 +527,12 @@ export class BaseService {
 				.pipe(untilDestroyed(this, 'unSubscribe'))
 				.subscribe(data => {
 					let item: any = null;
-					if (data && data.data && (data.data.id || data.data._id)) {
+					if (data && data.data && data.data.id) {
 						item = data.data;
 					} else if (data && data.data && data.data.length > 0) {
-						item = data.data.filter(x => (x && (x.id && x.id === id) || (x._id && x._id === id)) ? true : false)[0];
+						item = data.data.filter(x => (x && x.id && x.id === id) ? true : false)[0];
 					}
-					if (item && (item.id || item._id)) {
+					if (item && item.id) {
 						let additional = data?.additional || null;
 						item = new this.model(item, additional);
 						this.changeAllItemsByItem(item);
@@ -573,9 +561,7 @@ export class BaseService {
 		let option: any = (urlOption) ? urlOption : this.urlOption;
 		let newParams = this.routeParams;
 		let url = (newParams && newParams.url) ? newParams.url : this.url
-		if (newParams && newParams._id && !newParams.id) {
-			newParams.id = newParams._id;
-		}
+
 		if (newParams && !isNaN(Number(newParams.id)) && Number(newParams.id) > 0) {
 			if (newParams.hasOwnProperty("paginate")) { newParams.paginate = null; }
 			if (newParams.hasOwnProperty("page")) { newParams.page = null; }
@@ -615,8 +601,8 @@ export class BaseService {
 			.pipe(untilDestroyed(this, 'unSubscribe'))
 			.subscribe(data => {
 				let item: any = data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.item;
+				item = (item && item.id) ? item : data.data.data;
+				item = (item && item.id) ? item : data.data.item;
 				let additional = data?.additional || null;
 				item = new this.model(item, additional);
 				this.concatNewItem(item);
@@ -656,11 +642,11 @@ export class BaseService {
 			.pipe(untilDestroyed(this, 'unSubscribe'))
 			.subscribe(data => {
         let item: any = data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.item;
+				item = (item && item.id) ? item : data.data.data;
+				item = (item && item.id) ? item : data.data.item;
 				let additional = data?.additional || null;
 				item = new this.model(item, additional);
-        item = (item && (item.id || item._id)) ? new this.model(item, additional) : item;
+        item = (item && item.id) ? new this.model(item, additional) : item;
 				this.concatNewItem(item);
 				this.changeItem(item);
 				this.onStoreResponse(data, inputData);
@@ -692,8 +678,8 @@ export class BaseService {
 			.pipe(untilDestroyed(this, 'unSubscribe'))
 			.subscribe(data => {
 				let item: any = data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.item;
+				item = (item && item.id) ? item : data.data.data;
+				item = (item && item.id) ? item : data.data.item;
 				let additional = data?.additional || null;
 				item = new this.model(item, additional);
 				item = (item && item.id) ? item : updatedItem;
@@ -729,11 +715,11 @@ export class BaseService {
 			.pipe(untilDestroyed(this, 'unSubscribe'))
 			.subscribe(data => {
 				let item: any = data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.data;
-				item = (item && (item.id || item._id)) ? item : data.data.item;
+				item = (item && item.id) ? item : data.data.data;
+				item = (item && item.id) ? item : data.data.item;
 				let additional = data?.additional || null;
 				item = new this.model(item, additional);
-				item = (item && (item.id || item._id)) ? item : updatedItem;
+				item = (item && item.id) ? item : updatedItem;
 				this.changeAllItemsByItem(item);
 				this.changeItem(item);
 				this.onUpdateResponse(data, updateData);
@@ -773,12 +759,12 @@ export class BaseService {
 					this.isUpdated.emit(false);
 				} else {
 					let item: any = data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.item;
-					if (item && (item.id || item._id)) {
+					item = (item && item.id) ? item : data.data.data;
+					item = (item && item.id) ? item : data.data.item;
+					if (item && item.id) {
 						let additional = data?.additional || null;
 						item = new this.model(item, additional);
-						item = (item && (item.id || item._id)) ? item : updatedItem;
+						item = (item && item.id) ? item : updatedItem;
 						this.changeAllItemsByItem(item);
 						this.changeItem(item);
 						this.onUpdateResponse(data, updateData);
@@ -814,7 +800,7 @@ export class BaseService {
 				let item: any = data.data;
 				let additional = data?.additional || null;
 				item = new this.model(item, additional);
-				item = (item && (item.id || item._id)) ? item : updatedItem;
+				item = (item && item.id) ? item : updatedItem;
 				this.changeItem(item);
 				this.changeAllItemsByItem(item);
 				this.onUpdateResponse(data, updateData);
@@ -874,7 +860,7 @@ export class BaseService {
 
 	destroyByPostWithData(url: string, data: any, urlOption: any = null) {
 		let option: any = (urlOption) ? urlOption : this.urlOption;
-		let id = data?.id || data?._id || null;
+		let id = data?.id || null;
 		let inputData: any = data;
 		if (id) {
 			this.commonService.deleteItemByPost(url, id, data, false, option)
@@ -1314,8 +1300,8 @@ export class BaseService {
 					this.isStored.emit(false);
 				} else {
 					let item: any = data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.item;
+					item = (item && item.id) ? item : data.data.data;
+					item = (item && item.id) ? item : data.data.item;
 
 					if (item) {
 						let additional = data?.additional || null;
@@ -1360,8 +1346,8 @@ export class BaseService {
 					this.isStored.emit(false);
 				} else {
 					let item: any = data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.item;
+					item = (item && item.id) ? item : data.data.data;
+					item = (item && item.id) ? item : data.data.item;
 
 					if (item) {
 						let additional = data?.additional || null;
@@ -1403,10 +1389,10 @@ export class BaseService {
 					this.isStored.emit(false);
 				} else {
 					let item: any = data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.item;
+					item = (item && item.id) ? item : data.data.data;
+					item = (item && item.id) ? item : data.data.item;
 					let additional = data?.additional || null;
-					if (item && (item.id || item._id)) {
+					if (item && item.id) {
 						item = new this.model(item, additional);
 						this.concatNewItem(item);
 						this.changeItem(item);
@@ -1447,10 +1433,10 @@ export class BaseService {
 					this.isStored.emit(false);
 				} else {
 					let item: any = data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.data;
-					item = (item && (item.id || item._id)) ? item : data.data.item;
+					item = (item && item.id) ? item : data.data.data;
+					item = (item && item.id) ? item : data.data.item;
 					let additional = data?.additional || null;
-					if (item && (item.id || item._id)) {
+					if (item && item.id) {
 						item = new this.model(item, additional);
 						this.concatNewItem(item);
 						this.changeItem(item);

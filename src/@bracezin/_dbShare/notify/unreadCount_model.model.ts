@@ -25,6 +25,7 @@ export class UnreadCountMapModel {
     constructor(response) {
 
         let datas = (response && response.data && response.data.length > 0) ? response.data : [];
+		datas = (datas && datas.length < 1 && response && response.data && response.data.data && response.data.data.length > 0) ? response.data.data : datas;
         let additional = (response && response.additional) ? response.additional : null;
         let items: UnreadCount[] = [];
         if (datas && datas.length > 0) {

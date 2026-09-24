@@ -91,7 +91,7 @@ export class ListComponent implements OnInit, OnDestroy {
 				}, {});
 			}
 			if (this.roles && this.roles.length > 0) {
-				this.filteredRoles = this.roles.filter(role => (role.name.toLocaleLowerCase() !== 'super admin' && role.name.toLocaleLowerCase() !== 'vendor' && role.name.toLocaleLowerCase() !== 'customer' && role.name.toLocaleLowerCase() !== 'agent'));
+				this.filteredRoles = this.roles.filter(role => (role.name.toLocaleLowerCase() !== 'superadmin'));
 			}
 		});
 	}

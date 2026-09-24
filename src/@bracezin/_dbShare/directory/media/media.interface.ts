@@ -1,34 +1,36 @@
 export interface Media {
 	id: string | number;
-    _id: string | number;
 	user_id: number;
-	client_id: number;
-	name: string;
-	file_name: string;
-	mime: string;
-	type: string;
-	url: string;
-	preview_url: string;
-	size: string;
-	is_active: boolean;
-    is_favorite: boolean;
+	resource_id: number;
+	resource_type: string;
+	model_id: number;
+	model_type: string;
 	shared_by: number;
+	document_type: string;
+	name: string;
+	filename: string;
+	location: string;
+	dirname: string;
+	mime: string;
+	size: number;
+	fileSize?: string;
+	extension: string;
+	etag: string;
+	disk: string;
+	url: string;
+	thumb_url?: string;
+	type: string;
+	is_active: boolean;
+	is_primary: boolean;
+    is_favorite: boolean;
+    is_local_server: boolean;
 	created_by?: number;
 	updated_by?: number;
 	created_at?: Date;
 	updated_at?: Date;
-	sharedWith: any;
-	sharedId: number;
+
 	tableName?: string;
     sharedByName?: string;
-	extention?:any;
-	favorite?:any;
-	sizeData?: string;
-	isSelected: boolean;
-	isAccess: boolean
-	createdBy: any;
-	rawUrl: string;
-	mediatags: any;
 }
 
 export interface MediaPanelConfig {

@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from '@bracezin/components/confirm/confirm.component';
 import { PasswordChangeComponent } from '../../card/password-change/password-change.component';
 
-import { Address, AgentService, AddressService, User, AddressModel, PayoutService, UserService } from 'src/@bracezin/_dbShare';
+import { Address, AgentService, AddressService, User, AddressModel, PayoutService, PermissionService, Permission, UserService } from 'src/@bracezin/_dbShare';
 
 @Component({
   selector: 'app-agent-item',
@@ -26,12 +26,16 @@ export class ItemComponent implements OnInit {
   id: string = this.route.snapshot.params['id'] || null;
   agent!: User;
   selectedAddress!: Address;
+
+  permissions: Permission[] = [];
+  permissionParams: any;
   
   constructor(
     private route: ActivatedRoute,
     public location: Location,
     public agentService: AgentService,
     public userService: UserService,
+    public permissionService: PermissionService,
     public addressService: AddressService,
     public payoutService: PayoutService,
 		private matDialog: MatDialog) {
@@ -47,6 +51,7 @@ export class ItemComponent implements OnInit {
   }
 
   dataInit() {
+    this.permissionService.params.pipe(untilDestroyed(this)).subscribe(data => this.permissionParams = data);
     this.agentService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isStored.pipe(untilDestroyed(this)).subscribe(data => this.getData());
     this.addressService.isUpdated.pipe(untilDestroyed(this)).subscribe(data => this.getData());
@@ -58,12 +63,20 @@ export class ItemComponent implements OnInit {
         this.agent = agent;
       }
     });
+    effect(() => {
+      let permissions = this.permissionService.libraries();
+      this.permissions = (permissions && permissions.length > 0) ? permissions : [];
+    });
   }
 
   getData() {
     if(this.id) {
       this.agentService.getItem({id: this.id, with: 'detail', appends: 'userPermissions'});
     }
+    this.permissionParams.all = 1;
+		this.permissionParams.paginate = null;
+		this.permissionParams.page = null;
+		this.permissionService.getAllItems();
   }
 
   editForm(): void {

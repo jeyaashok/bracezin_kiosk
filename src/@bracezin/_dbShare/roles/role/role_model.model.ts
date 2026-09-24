@@ -65,19 +65,19 @@ export class RoleMapModel {
     constructor(response) {
 
         let datas = (response && response.data && response.data.length > 0) ? response.data : [];
-				datas = (datas && datas.length < 1 && response && response.data && response.data.data && response.data.data.length > 0) ? response.data.data : datas;
-				let additional = (response && response.additional) ? response.additional : null;
-				let items: Role[] = [];
-				if (datas && datas.length > 0) {
-					for (let i = 0; i <= datas.length; i++) {
-						let item = datas[i];
-						if (item && item.id) {
-							items[i] = new RoleModel(datas[i], additional);
-						}
-					}
+		datas = (datas && datas.length < 1 && response && response.data && response.data.data && response.data.data.length > 0) ? response.data.data : datas;
+		let additional = (response && response.additional) ? response.additional : null;
+		let items: Role[] = [];
+		if (datas && datas.length > 0) {
+			for (let i = 0; i <= datas.length; i++) {
+				let item = datas[i];
+				if (item && item.id) {
+					items[i] = new RoleModel(datas[i], additional);
 				}
-		
-				this.data = {};
-				this.data.data = items;
+			}
+		}
+
+		this.data = {};
+		this.data.data = items;
     }
 }

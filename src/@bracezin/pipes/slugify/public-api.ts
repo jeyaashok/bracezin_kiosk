@@ -1,2 +1,1 @@
-// export * from '@octopus/pipes/slugify/slugify.module';
-export * from '@octopus/pipes/slugify/slugify.pipe';
+export * from 'src/@bracezin/pipes/slugify/slugify.pipe';

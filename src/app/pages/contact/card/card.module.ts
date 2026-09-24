@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppShareModule } from 'src/app/app-share.module';
+import { LibraryModule } from '@bracezin/library.module';
 
 import { ProfileRatioComponent } from './profile-ratio/profile-ratio.component';
 import { InfoComponent } from './info/info.component';
@@ -17,6 +18,7 @@ import { RecentAgentSaleOrdersComponent } from './recent-agent-sale-orders/recen
 import { RecentAgentPurchaseOrdersComponent } from './recent-agent-purchase-orders/recent-agent-purchase-orders.component';
 import { RolesPermissionsComponent } from './roles-permissions/roles-permissions.component';
 import { PasswordChangeComponent } from "./password-change/password-change.component";
+import { MediaComponent } from "./media/media.component";
 
 @NgModule({
   declarations: [
@@ -34,11 +36,13 @@ import { PasswordChangeComponent } from "./password-change/password-change.compo
     RecentAgentSaleOrdersComponent,
     RecentAgentPurchaseOrdersComponent,
     RolesPermissionsComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    MediaComponent
   ],
   imports: [
     CommonModule,
     AppShareModule,
+    LibraryModule,
   ],
   exports: [
     ProfileRatioComponent,
@@ -55,7 +59,8 @@ import { PasswordChangeComponent } from "./password-change/password-change.compo
     RecentAgentSaleOrdersComponent,
     RecentAgentPurchaseOrdersComponent,
     RolesPermissionsComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    MediaComponent
   ]
 })
 export class CardModule { }

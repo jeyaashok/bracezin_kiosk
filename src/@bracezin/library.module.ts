@@ -12,8 +12,7 @@ import { SearchComponent } from './components/search/search.component';
 import { AlertComponent } from './components/dialog/alert/alert.component';
 
 @NgModule({
-    declarations: [
-		],
+    declarations: [ ],
     imports: [
         CommonModule,
         RouterModule,
@@ -23,7 +22,7 @@ import { AlertComponent } from './components/dialog/alert/alert.component';
         MatIconModule,
         MatDialogModule,
         NoRecordComponent,
-				ConfirmComponent,
+        ConfirmComponent,
         SearchComponent,
         AlertComponent
     ],
