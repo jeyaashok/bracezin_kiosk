@@ -1,15 +1,27 @@
 {
 	"name": "bracezin",
 	"version": "4.4.3",
+	"main": "electron/main.js",
 	"scripts": {
 		"ng": "ng",
 		"start": "ng serve --configuration development --live-reload true --hmr false --poll 1000 --port 4001",
+		"start:kiosk": "ng serve kiosk --configuration development --live-reload true --hmr false --poll 1000 --port 4010",
 		"build": "ng build",
+		"build:kiosk": "ng build kiosk",
+		"build:kiosk:prod": "ng build kiosk --configuration production",
+		"electron:start:kiosk": "npm run build:kiosk && electron .",
+		"electron:build:kiosk": "npm run build:kiosk:prod && electron-packager . BracezinKiosk --platform=win32 --arch=x64 --out=dist-electron --overwrite --prune",
+		"android:init:kiosk": "npm run build:kiosk:prod && npx cap add android",
+		"android:sync:kiosk": "npm run build:kiosk:prod && npx cap sync android",
+		"android:open:kiosk": "npx cap open android",
+		"android:bundle:kiosk": "npm run build:kiosk:prod && npx cap sync android && powershell -ExecutionPolicy Bypass -File scripts/android-bundle-kiosk.ps1",
 		"watch": "ng serve --configuration development --live-reload true --hmr false --poll 1000 --port 4001",
 		"test": "ng test"
 	},
 	"private": true,
 	"dependencies": {
+		"@capacitor/android": "^7.6.8",
+		"@capacitor/core": "^7.6.8",
 		"@angular/animations": "^21.2.4",
 		"@angular/cdk": "^21.2.2",
 		"@angular/common": "^21.2.4",
@@ -112,6 +124,7 @@
 		"zone.js": "^0.16.1"
 	},
 	"devDependencies": {
+		"@capacitor/cli": "^7.6.8",
 		"@angular/build": "^21.2.2",
 		"@angular/cli": "^21.2.2",
 		"@angular/compiler-cli": "^21.2.4",
@@ -124,6 +137,9 @@
 		"@types/node": "^25.5.0",
 		"@types/quill": "^2.0.14",
 		"autoprefixer": "10.4.16",
+		"electron": "^29.4.3",
+		"electron-builder": "^24.6.4",
+		"electron-packager": "^17.1.2",
 		"karma-jasmine": "^5.1.0",
 		"karma-jasmine-html-reporter": "^2.2.0",
 		"postcss": "^8.4.24",

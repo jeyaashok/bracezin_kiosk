@@ -1,0 +1,54 @@
+<section class="kiosk-auth-screen">
+    <div class="kiosk-auth-panel">
+        <div class="brand-copy">
+            <p class="eyebrow">Bracezin Ads Kiosk</p>
+            <h1>Authenticate this device to start the ad loop.</h1>
+            <p class="support-copy">
+                Each kiosk uses its own device identity. Once authenticated, this screen switches to full-screen image
+                and video playback without header controls.
+            </p>
+        </div>
+
+        <form class="auth-form" (ngSubmit)="authenticate()">
+            <label for="deviceId">Device ID</label>
+            <input id="deviceId" name="deviceId" type="text" [(ngModel)]="credentials.deviceId" required
+                autocomplete="off" (focus)="onFieldFocus('deviceId')">
+
+            <label for="accessKey">Access Key</label>
+            <input id="accessKey" name="accessKey" type="password" [(ngModel)]="credentials.accessKey" required
+                autocomplete="off" (focus)="onFieldFocus('accessKey')">
+
+            @if (errorMessage) {
+            <p class="error-message">{{ errorMessage }}</p>
+            }
+
+            <button type="submit" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Authenticating device...' : 'Authenticate device' }}
+            </button>
+        </form>
+
+        <div class="auth-note">
+            <span>Demo credentials:</span>
+            <strong>KIOSK-001 / BRACEZIN-ADS-001</strong>
+        </div>
+    </div>
+
+    @if (isKeyboardVisible && activeField) {
+    <div class="keyboard-dock-overlay" (click)="closeKeyboard()"></div>
+
+    <div class="virtual-input-section keyboard-dock">
+        <div class="keyboard-dock-header">
+            <div class="active-field-indicator">
+                <span>Typing for:</span>
+                <strong>{{ activeField === 'deviceId' ? 'Device ID' : 'Access Key' }}</strong>
+            </div>
+
+            <button type="button" class="keyboard-dismiss" (click)="closeKeyboard()">Done</button>
+        </div>
+
+        <kiosk-common-keyboard [value]="activeFieldValue" (valueChange)="onVirtualInputChange($event)"
+            (enter)="authenticate()" [disabled]="isSubmitting" [title]="'Letters & Symbols'">
+        </kiosk-common-keyboard>
+    </div>
+    }
+</section>

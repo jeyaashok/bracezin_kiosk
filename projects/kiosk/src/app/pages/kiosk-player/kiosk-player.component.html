@@ -1,0 +1,37 @@
+<section class="kiosk-player-screen">
+    @if (currentAd) {
+    <div class="media-stage">
+        @if (currentAd.type === 'image') {
+        <img class="media-frame" [src]="currentAd.source" [alt]="currentAd.title">
+        }
+
+        @if (currentAd.type === 'video') {
+        <video #videoPlayer class="media-frame" [src]="currentAd.source" autoplay muted playsinline preload="auto"
+            disablePictureInPicture controlsList="nodownload nofullscreen noplaybackrate"
+            (loadedmetadata)="onVideoMetadataLoaded(videoPlayer)" (ended)="onVideoEnded()">
+        </video>
+        }
+
+        <div class="ad-overlay"></div>
+        <div class="watermark-chip" [class]="currentWatermarkClass">BracezinAds</div>
+
+        <footer class="kiosk-footer">
+            <div class="footer-progress-track">
+                <div class="footer-progress-bar" [style.width.%]="currentProgress"></div>
+            </div>
+
+            <div class="footer-copy">
+                <span>&copy; {{ year }} Bracezin Ads. All Rights Reserved.</span>
+            </div>
+        </footer>
+    </div>
+    }
+
+    @if (!currentAd) {
+    <div class="empty-state">
+        <h2>No ads available for this kiosk.</h2>
+        <p>Authenticate the device and assign image or video ads to start playback.</p>
+        <button type="button" (click)="signOut()">Back to authentication</button>
+    </div>
+    }
+</section>

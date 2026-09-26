@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../",
+    "paths": {
+      "src/*": ["src/*"],
+      "@bracezin": ["src/@bracezin"],
+      "@bracezin/*": ["src/@bracezin/*"]
+    },
+    "outDir": "../../out-tsc/kiosk",
+    "rootDir": "../../",
+    "types": ["@angular/localize"]
+  },
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/**/*.d.ts"]
+}

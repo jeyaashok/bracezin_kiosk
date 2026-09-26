@@ -1,0 +1,25 @@
+<section class="np-shell" [class.np-disabled]="disabled">
+    <header class="np-header">
+        <h3>{{ title }}</h3>
+    </header>
+
+    <div class="np-grid">
+        @for (row of rows; track row) {
+        <div class="np-row">
+            @for (key of row; track key) {
+            <button type="button" class="np-key" [class.np-key-pressed]="pressedKeyCode === key"
+                (click)="onKeyTap(key)">{{ key }}</button>
+            }
+        </div>
+        }
+
+        <div class="np-row np-row-actions">
+            <button type="button" class="np-key" [class.np-key-pressed]="pressedKeyCode === 'BKSP'"
+                (click)="onKeyTap('BKSP')">Back</button>
+            <button type="button" class="np-key" [class.np-key-pressed]="pressedKeyCode === 'CLEAR'"
+                (click)="onKeyTap('CLEAR')">Clear</button>
+            <button type="button" class="np-key np-key-enter" [class.np-key-pressed]="pressedKeyCode === 'ENTER'"
+                (click)="onKeyTap('ENTER')">Enter</button>
+        </div>
+    </div>
+</section>

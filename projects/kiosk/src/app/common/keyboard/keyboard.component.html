@@ -1,0 +1,21 @@
+<section class="vk-shell" [class.vk-disabled]="disabled">
+    <header class="vk-header">
+        <h3>{{ title }}</h3>
+        <p>Tap to type</p>
+    </header>
+
+    <div class="vk-grid">
+        @for (row of rows; track row) {
+        <div class="vk-row">
+            @for (key of row; track key) {
+            <button type="button" class="vk-key {{ getWidthClass(key) }}" [class.vk-key-active]="isActiveKey(key)"
+                [class.vk-key-control]="key.action && key.action !== 'char'"
+                [class.vk-key-enter]="key.action === 'enter'" [class.vk-key-backspace]="key.action === 'bksp'"
+                [class.vk-key-pressed]="pressedKeyCode === key.code" (click)="onKeyTap(key)">
+                {{ key.action && key.action !== 'char' ? key.label : getVisibleKey(key) }}
+            </button>
+            }
+        </div>
+        }
+    </div>
+</section>

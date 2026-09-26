@@ -1,0 +1,17 @@
+{
+    "appId": "com.bracezin.kiosk",
+    "productName": "Bracezin Kiosk",
+    "directories": {
+        "output": "dist-electron"
+    },
+    "files": [
+        "electron/main.js",
+        "dist/kiosk/browser/**/*",
+        "package.json"
+    ],
+    "win": {
+        "target": [
+            "dir"
+        ]
+    }
+}
